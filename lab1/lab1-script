@@ -1,0 +1,146 @@
+Script started on 2021-04-06 11:20:05-0700
+haganc3@linux-01:~/Documents/447/lab1$ asm Echo.s
+haganc3@linux-01:~/Documents/447/lab1$ lddd Echo.o -o Echo
+haganc3@linux-01:~/Documents/447/lab1$ blitz Echo
+======================================================
+=====                                            =====
+=====         The BLITZ Machine Emulator         =====
+=====                                            =====
+=====  Copyright 2001-2007, Harry H. Porter III  =====
+=====                                            =====
+======================================================
+
+Enter a command at the prompt.  Type 'quit' to exit or 'help' for
+info about commands.
+> go
+Beginning execution...
+test
+test
+testy test testers
+testy test testers
+thios    s works great!
+this works great!
+:)
+:)
+q
+q
+****  A 'debug' instruction was encountered  *****
+Done!  The next instruction to execute will be:
+                   cont:
+0000A4: A1FFFFAC       jmp     0xFFFFAC		! targetAddr = loop
+> q
+Number of Disk Reads    = 0
+Number of Disk Writes   = 0
+Instructions Executed   = 314681032
+Time Spent Sleeping     = 0
+    Total Elapsed Time  = 314681032
+haganc3@linux-01:~/Documents/447/lab1$ make
+make: Nothing to be done for 'all'.
+haganc3@linux-01:~/Documents/447/lab1$ blitz -g HelloWorld
+Beginning execution...
+====================  KPL PROGRAM STARTING  ====================
+Hello, world...
+The value of b is 12
+
+****  A 'debug' instruction was encountered  *****
+Done!  The next instruction to execute will be:
+0028A4: 8B1EFFF0       load    [r14+0xFFF0],r1	! decimal: -16
+
+Entering machine-level debugger...
+======================================================
+=====                                            =====
+=====         The BLITZ Machine Emulator         =====
+=====                                            =====
+=====  Copyright 2001-2007, Harry H. Porter III  =====
+=====                                            =====
+======================================================
+
+Enter a command at the prompt.  Type 'quit' to exit or 'help' for
+info about commands.
+> g
+Beginning execution...
+The value of b is 13
+
+****  A 'debug' instruction was encountered  *****
+Done!  The next instruction to execute will be:
+0028A4: 8B1EFFF0       load    [r14+0xFFF0],r1	! decimal: -16
+> go
+Beginning execution...
+The value of b is 14
+
+****  A 'debug' instruction was encountered  *****
+Done!  The next instruction to execute will be:
+0028A4: 8B1EFFF0       load    [r14+0xFFF0],r1	! decimal: -16
+> g
+Beginning execution...
+The value of b is 15
+
+****  A 'debug' instruction was encountered  *****
+Done!  The next instruction to execute will be:
+0028A4: 8B1EFFF0       load    [r14+0xFFF0],r1	! decimal: -16
+> st
+   Function/Method            Frame Addr   Execution at...
+   ========================   ==========   =====================
+   bar                         00FFFE74    HelloWorld.k, line 20
+   bar                         00FFFE90    HelloWorld.k, line 21
+   bar                         00FFFEAC    HelloWorld.k, line 21
+   bar                         00FFFEC8    HelloWorld.k, line 21
+   foo                         00FFFEE0    HelloWorld.k, line 11
+   main                        00FFFEF8    HelloWorld.k, line 7
+Bottom of activation frame stack!
+> reset
+Resetting all CPU registers and re-reading file "HelloWorld"...
+> go
+Beginning execution...
+====================  KPL PROGRAM STARTING  ====================
+Hello, world...
+The value of b is 12
+
+****  A 'debug' instruction was encountered  *****
+Done!  The next instruction to execute will be:
+0028A4: 8B1EFFF0       load    [r14+0xFFF0],r1	! decimal: -16
+> st
+   Function/Method            Frame Addr   Execution at...
+   ========================   ==========   =====================
+   bar                         00FFFEC8    HelloWorld.k, line 20
+   foo                         00FFFEE0    HelloWorld.k, line 11
+   main                        00FFFEF8    HelloWorld.k, line 7
+Bottom of activation frame stack!
+> fr
+=====  Frame number 0 (where StackTop = 0)  =====
+Function Name:    bar
+Filename:         HelloWorld.k
+Execution now at: line 20
+Frame Addr:       00FFFEC8
+frameSize:        12
+totalParmSize:    4
+                         ==========
+   sp--> -20   00FFFEB4:  0000000C
+         -16   00FFFEB8:  0000000C
+         -12   00FFFEBC:  0000906C
+R.D.ptr:  -8   00FFFEC0:  000028D0
+    r13:  -4   00FFFEC4:  0000000B
+     fp:   0   00FFFEC8:  00FFFEE0
+RetAddr:   4   00FFFECC:  000027B4
+                         ==========
+   Args:   8   00FFFED0:  0000000B
+
+PARAMETERS AND LOCAL VARIABLES WITHIN THIS FRAME:
+=================================================
+  a: int
+           8   00FFFED0:  0000000B    value = 11
+  _temp_15
+         -12   00FFFEBC:  0000906C
+  b: int
+         -16   00FFFEB8:  0000000C    value = 12
+=================================================
+> q
+Number of Disk Reads    = 0
+Number of Disk Writes   = 0
+Instructions Executed   = 609
+Time Spent Sleeping     = 0
+    Total Elapsed Time  = 609
+haganc3@linux-01:~/Documents/447/lab1$ exit
+exit
+
+Script done on 2021-04-06 11:22:20-0700
