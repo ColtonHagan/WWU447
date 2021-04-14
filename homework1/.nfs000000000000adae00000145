@@ -1,579 +1,0 @@
-Script started on 2021-04-13 17:08:08-0700
-haganc3@linux-10:~/Documents/447/homework1$ make
-asm Runtime.s
-kpl System -unsafe
-asm System.s
-kpl aFunProgram
-asm aFunProgram.s
-lddd Runtime.o System.o aFunProgram.o -o aFunProgram
-haganc3@linux-10:~/Documents/447/homework1$ blitz -g aFunProgram
-Beginning execution...
-====================  KPL PROGRAM STARTING  ====================
-the is will echo worl\dq
-this will echo worl\dq
-q
-q
-====================  KPL PROGRAM TERMINATION  ====================
-
-****  A 'debug' instruction was encountered  *****
-Done!  The next instruction to execute will be:
-000D98: C0100000       sethi   0x0000,r1	! 0x00000DA8 = 3496 (noGoMessage)
-
-Entering machine-level debugger...
-======================================================
-=====                                            =====
-=====         The BLITZ Machine Emulator         =====
-=====                                            =====
-=====  Copyright 2001-2007, Harry H. Porter III  =====
-=====                                            =====
-======================================================
-
-Enter a command at the prompt.  Type 'quit' to exit or 'help' for
-info about commands.
-> q
-Number of Disk Reads    = 0
-Number of Disk Writes   = 0
-Instructions Executed   = 380100693
-Time Spent Sleeping     = 0
-    Total Elapsed Time  = 380100693
-haganc3@linux-10:~/Documents/447/homework1$ rm homework1-script.txt
-rm: cannot remove 'homework1-script.txt': No such file or directory
-haganc3@linux-10:~/Documents/447/homework1$ rm homework1-script
-haganc3@linux-10:~/Documents/447/homework1$ scripo\\[K[K[Kt homework1-script.txt
-Script started, file is homework1-script.txt
-haganc3@linux-10:~/Documents/447/homework1$ exit
-exit
-Script done, file is homework1-script.txt
-haganc3@linux-10:~/Documents/447/homework1$ rm homework1-script.txt
-haganc3@linux-10:~/Documents/447/homework1$ make clean
-rm -f Runtime.o System.s System.o aFunProgram.o aFunProgram.s aFunProgram
-haganc3@linux-10:~/Documents/447/homework1$ homework1-script.txt
-homework1-script.txt: command not found
-haganc3@linux-10:~/Documents/447/homework1$ script homework1-script.txt
-Script started, file is homework1-script.txt
-haganc3@linux-10:~/Documents/447/homework1$ make
-asm Runtime.s
-kpl System -unsafe
-asm System.s
-kpl aFunProgram
-asm aFunProgram.s
-lddd Runtime.o System.o aFunProgram.o -o aFunProgram
-haganc3@linux-10:~/Documents/447/homework1$ blitz - [Kg
-BLITZ Emulator Error: Input file "a.out" could not be opened
-haganc3@linux-10:~/Documents/447/homework1$ q
-
-Command 'q' not found, but can be installed with:
-
-snap install q                       # version 1.6.3-1, or
-apt  install python-q-text-as-data 
-apt  install python3-q-text-as-data
-
-See 'snap info q' for additional versions.
-
-haganc3@linux-10:~/Documents/447/homework1$ make clean
-rm -f Runtime.o System.s System.o aFunProgram.o aFunProgram.s aFunProgram
-haganc3@linux-10:~/Documents/447/homework1$ rm script homework1-script.txt
-rm: cannot remove 'script': No such file or directory
-haganc3@linux-10:~/Documents/447/homework1$ script
-Script started, file is typescript
-make blitz -g aFunProgram
-Test
-haganc3@linux-10:~/Documents/447/homework1$ make blitz -g aFunProgram
-make: invalid option -- 'g'
-Usage: make [options] [target] ...
-Options:
-  -b, -m                      Ignored for compatibility.
-  -B, --always-make           Unconditionally make all targets.
-  -C DIRECTORY, --directory=DIRECTORY
-                              Change to DIRECTORY before doing anything.
-  -d                          Print lots of debugging information.
-  --debug[=FLAGS]             Print various types of debugging information.
-  -e, --environment-overrides
-                              Environment variables override makefiles.
-  --eval=STRING               Evaluate STRING as a makefile statement.
-  -f FILE, --file=FILE, --makefile=FILE
-                              Read FILE as a makefile.
-  -h, --help                  Print this message and exit.
-  -i, --ignore-errors         Ignore errors from recipes.
-  -I DIRECTORY, --include-dir=DIRECTORY
-                              Search DIRECTORY for included makefiles.
-  -j [N], --jobs[=N]          Allow N jobs at once; infinite jobs with no arg.
-  -k, --keep-going            Keep going when some targets can't be made.
-  -l [N], --load-average[=N], --max-load[=N]
-                              Don't start multiple jobs unless load is below N.
-  -L, --check-symlink-times   Use the latest mtime between symlinks and target.
-  -n, --just-print, --dry-run, --recon
-                              Don't actually run any recipe; just print them.
-  -o FILE, --old-file=FILE, --assume-old=FILE
-                              Consider FILE to be very old and don't remake it.
-  -O[TYPE], --output-sync[=TYPE]
-                              Synchronize output of parallel jobs by TYPE.
-  -p, --print-data-base       Print make's internal database.
-  -q, --question              Run no recipe; exit status says if up to date.
-  -r, --no-builtin-rules      Disable the built-in implicit rules.
-  -R, --no-builtin-variables  Disable the built-in variable settings.
-  -s, --silent, --quiet       Don't echo recipes.
-  -S, --no-keep-going, --stop
-                              Turns off -k.
-  -t, --touch                 Touch targets instead of remaking them.
-  --trace                     Print tracing information.
-  -v, --version               Print the version number of make and exit.
-  -w, --print-directory       Print the current directory.
-  --no-print-directory        Turn off -w, even if it was turned on implicitly.
-  -W FILE, --what-if=FILE, --new-file=FILE, --assume-new=FILE
-                              Consider FILE to be infinitely new.
-  --warn-undefined-variables  Warn when an undefined variable is referenced.
-
-This program built for x86_64-pc-linux-gnu
-Report bugs to <bug-make@gnu.org>
-haganc3@linux-10:~/Documents/447/homework1$ Test
-This text will echo
-This q will q not q exit qqqq
-The next line will start with q and therefore exit
-queen's quest
-
-Command 'Test' not found, did you mean:
-
-  command 'test' from deb coreutils
-
-Try: apt install <deb name>
-
-haganc3@linux-10:~/Documents/447/homework1$ This text will echo
-q
-exit
-This: command not found
-haganc3@linux-10:~/Documents/447/homework1$ This q will q not q exit qqqq
-This: command not found
-haganc3@linux-10:~/Documents/447/homework1$ The next line will start with q and therefore exit
-
-Command 'The' not found, did you mean:
-
-  command 'he' from deb node-he
-  command 'the' from deb the
-
-Try: apt install <deb name>
-
-haganc3@linux-10:~/Documents/447/homework1$ queen's quest
-> q
-> exit
-> make clean
-> rm script homework1-script.txt
-> script homework1-script.txt
-> make
-> blitz -g aFunProgram
-> Test
-> This text will echo
-> This q will q not q exit qqqq
-> The next line will start with q and therefore exit
-> queen's quest
-q
-exit
-queens quest
-q
-exit
-make clean
-rm script homework1-script.txt
-script homework1-script.txt
-make
-blitz -g aFunProgram
-Test
-This text will echo
-This q will q not q exit qqqq
-The next line will start with q and therefore exit
-queens: command not found
-haganc3@linux-10:~/Documents/447/homework1$ q
-
-Command 'q' not found, but can be installed with:
-
-snap install q                       # version 1.6.3-1, or
-apt  install python-q-text-as-data 
-apt  install python3-q-text-as-data
-
-See 'snap info q' for additional versions.
-
-haganc3@linux-10:~/Documents/447/homework1$ exit
-exit
-Script done, file is typescript
-haganc3@linux-10:~/Documents/447/homework1$ nan [Ki [K[Ko homework1-script.txt
-[?1049h[22;0;0t[1;33r(B[m[4l[?7h[39;49m[?1h=[?1h=[?1h=[?25l[39;49m(B[m[H[2J[31;51H(B[0;7m[ New File ](B[m[H(B[0;7m  GNU nano 2.9.3                                 homework1-script.txt                                            [1;112H(B[m[32d(B[0;7m^G(B[m Get Help     (B[0;7m^O(B[m Write Out    (B[0;7m^W(B[m Where Is     (B[0;7m^K(B[m Cut Text     (B[0;7m^J(B[m Justify[81G(B[0;7m^C(B[m Cur Pos[97G(B[0;7mM-U(B[m Undo[33d(B[0;7m^X(B[m Exit[33;17H(B[0;7m^R(B[m Read File    (B[0;7m^\(B[m Replace[49G(B[0;7m^U(B[m Uncut Text   (B[0;7m^T(B[m To Spell     (B[0;7m^_(B[m Go To Line   (B[0;7mM-E(B[m Redo[31d[3d[39;49m(B[m[?12l[?25h[?25l[31;32H(B[0;7m[ line 1/1 (100%), col 1/1 (100%), char 0/0 (0%) ](B[m[3d[?12l[?25h[?25l[31d[J[33;113H[?12l[?25h[33;1H[?1049l[23;0;0t[?1l>haganc3@linux-10:~/Documents/447/homework1$ nano [K[K[K[K[Kls
-aFunProgram.h  DISK    Hello.s	     HelloWorld.k  makefile   System.h	typescript
-aFunProgram.k  Echo.s  HelloWorld.h  HelloWorld.s  Runtime.s  System.k
-haganc3@linux-10:~/Documents/447/homework1$ make clean
-rm -f Runtime.o System.s System.o aFunProgram.o aFunProgram.s aFunProgram
-haganc3@linux-10:~/Documents/447/homework1$ script homework1-script.txt
-Script started, file is homework1-script.txt
-make
-haganc3@linux-10:~/Documents/447/homework1$ make
-asm Runtime.s
-blitz -g aFunProgram
-Test
-kpl System -unsafe
-asm System.s
-This text will echo
-kpl aFunProgram
-asm aFunProgram.s
-lddd Runtime.o System.o aFunProgram.o -o aFunProgram
-haganc3@linux-10:~/Documents/447/homework1$ blitz -g aFunProgram
-Beginning execution...
-====================  KPL PROGRAM STARTING  ====================
-TThis q will q not q exit qqqq
-The next line will start with q and therefore exit
-estqueen's quest
-q
-
-Thiexits text will echo
-This q will q not q exit qqqq
-The next line will start with q and therefore exit
-q
-====================  KPL PROGRAM TERMINATION  ====================
-
-****  A 'debug' instruction was encountered  *****
-Done!  The next instruction to execute will be:
-000D98: C0100000       sethi   0x0000,r1	! 0x00000DA8 = 3496 (noGoMessage)
-
-Entering machine-level debugger...
-======================================================
-=====                                            =====
-=====         The BLITZ Machine Emulator         =====
-=====                                            =====
-=====  Copyright 2001-2007, Harry H. Porter III  =====
-=====                                            =====
-======================================================
-
-Enter a command at the prompt.  Type 'quit' to exit or 'help' for
-info about commands.
-> Number of Disk Reads    = 0
-Number of Disk Writes   = 0
-Instructions Executed   = 3185774
-Time Spent Sleeping     = 0
-    Total Elapsed Time  = 3185774
-haganc3@linux-10:~/Documents/447/homework1$ exit
-exit
-Script done, file is homework1-script.txt
-haganc3@linux-10:~/Documents/447/homework1$ ls
-aFunProgram    aFunProgram.o  Echo.s	    HelloWorld.k	  makefile   System.h  System.s
-aFunProgram.h  aFunProgram.s  Hello.s	    HelloWorld.s	  Runtime.o  System.k  typescript
-aFunProgram.k  DISK	      HelloWorld.h  homework1-script.txt  Runtime.s  System.o
-haganc3@linux-10:~/Documents/447/homework1$ m[Krm script homework1-script.txt
-rm: cannot remove 'script': No such file or directory
-haganc3@linux-10:~/Documents/447/homework1$ make
-make: Nothing to be done for 'all'.
-haganc3@linux-10:~/Documents/447/homework1$ blitz -g aFunProgram
-Beginning execution...
-This text will echo
-This q will q not q exit qqqq
-====================  KPL PROGRAM STARTING  ====================
-Test\x0DThThe next line will start with q and therefore exit
-queen's quest
-is teq
-xt wiexitll echo
-This q will q not q exit qqqq
-The next line will start with q and therefore exit
-q
-====================  KPL PROGRAM TERMINATION  ====================
-
-****  A 'debug' instruction was encountered  *****
-Done!  The next instruction to execute will be:
-000D98: C0100000       sethi   0x0000,r1	! 0x00000DA8 = 3496 (noGoMessage)
-
-Entering machine-level debugger...
-======================================================
-=====                                            =====
-=====         The BLITZ Machine Emulator         =====
-=====                                            =====
-=====  Copyright 2001-2007, Harry H. Porter III  =====
-=====                                            =====
-======================================================
-
-Enter a command at the prompt.  Type 'quit' to exit or 'help' for
-info about commands.
-> Number of Disk Reads    = 0
-Number of Disk Writes   = 0
-Instructions Executed   = 3185775
-Time Spent Sleeping     = 0
-    Total Elapsed Time  = 3185775
-haganc3@linux-10:~/Documents/447/homework1$ exit
-exit
-Script done, file is homework1-script.txt
-haganc3@linux-10:~/Documents/447/homework1$ rm homework1-script.txt
-rm: cannot remove 'homework1-script.txt': No such file or directory
-haganc3@linux-10:~/Documents/447/homework1$ ls'[K
-aFunProgram    aFunProgram.o  Echo.s	    HelloWorld.k  Runtime.o  System.k  typescript
-aFunProgram.h  aFunProgram.s  Hello.s	    HelloWorld.s  Runtime.s  System.o
-aFunProgram.k  DISK	      HelloWorld.h  makefile	  System.h   System.s
-haganc3@linux-10:~/Documents/447/homework1$ make clean
-rm -f Runtime.o System.s System.o aFunProgram.o aFunProgram.s aFunProgram
-haganc3@linux-10:~/Documents/447/homework1$ script homework1-script.txt
-Script started, file is homework1-script.txt
-haganc3@linux-10:~/Documents/447/homework1$ make
-asm Runtime.s
-kpl System -unsafe
-asm System.s
-kpl aFunProgram
-asm aFunProgram.s
-lddd Runtime.o System.o aFunProgram.o -o aFunProgram
-haganc3@linux-10:~/Documents/447/homework1$ blitz -g aFunProgram
-Beginning execution...
-====================  KPL PROGRAM STARTING  ====================
-Test
-Test
-This text will echo
-This text will echo
-This q will q not q exit qqqq
-This q will q not q exit qqqq
-The next line will start with q and therefore exit
-The next line will start with q and therefore exit
-queen's quest
-q
-====================  KPL PROGRAM TERMINATION  ====================
-
-****  A 'debug' instruction was encountered  *****
-Done!  The next instruction to execute will be:
-000D98: C0100000       sethi   0x0000,r1	! 0x00000DA8 = 3496 (noGoMessage)
-
-Entering machine-level debugger...
-======================================================
-=====                                            =====
-=====         The BLITZ Machine Emulator         =====
-=====                                            =====
-=====  Copyright 2001-2007, Harry H. Porter III  =====
-=====                                            =====
-======================================================
-
-Enter a command at the prompt.  Type 'quit' to exit or 'help' for
-info about commands.
-> q
-Number of Disk Reads    = 0
-Number of Disk Writes   = 0
-Instructions Executed   = 590329109
-Time Spent Sleeping     = 0
-    Total Elapsed Time  = 590329109
-haganc3@linux-10:~/Documents/447/homework1$ exit
-exit
-Script done, file is homework1-script.txt
-haganc3@linux-10:~/Documents/447/homework1$ ls
-aFunProgram    aFunProgram.o  Echo.s	    HelloWorld.k	  makefile   System.h  System.s
-aFunProgram.h  aFunProgram.s  Hello.s	    HelloWorld.s	  Runtime.o  System.k  typescript
-aFunProgram.k  DISK	      HelloWorld.h  homework1-script.txt  Runtime.s  System.o
-haganc3@linux-10:~/Documents/447/homework1$ m[Kmake clean
-rm -f Runtime.o System.s System.o aFunProgram.o aFunProgram.s aFunProgram
-haganc3@linux-10:~/Documents/447/homework1$ ls
-aFunProgram.h  DISK    Hello.s	     HelloWorld.k  homework1-script.txt  Runtime.s  System.k
-aFunProgram.k  Echo.s  HelloWorld.h  HelloWorld.s  makefile		 System.h   typescript
-haganc3@linux-10:~/Documents/447/homework1$ nano h[K\[Khomework1-script.txt
-[?1049h[22;0;0t[1;33r(B[m[4l[?7h[39;49m[?1h=[?1h=[?1h=[?25l[39;49m(B[m[H[2J[31;49H(B[0;7m[ Reading File ](B[m[31;55H(B[0;7m 48 lines ](B[m[H(B[0;7m  GNU nano 2.9.3                                 homework1-script.txt                                            [1;112H(B[m[32d(B[0;7m^G(B[m Get Help     (B[0;7m^O(B[m Write Out    (B[0;7m^W(B[m Where Is     (B[0;7m^K(B[m Cut Text     (B[0;7m^J(B[m Justify[81G(B[0;7m^C(B[m Cur Pos[97G(B[0;7mM-U(B[m Undo[33d(B[0;7m^X(B[m Exit[33;17H(B[0;7m^R(B[m Read File    (B[0;7m^\(B[m Replace[49G(B[0;7m^U(B[m Uncut Text   (B[0;7m^T(B[m To Spell     (B[0;7m^_(B[m Go To Line   (B[0;7mM-E(B[m Redo[31d[3d[39;49m(B[mScript started on 2021-04-13 17:14:52-0700[4dhaganc3@linux-10:~/Documents/447/homework1$ make[5dasm Runtime.s[6dkpl System -unsafe[7dasm System.s[8dkpl aFunProgram[9dasm aFunProgram.s[10dlddd Runtime.o System.o aFunProgram.o -o aFunProgram[11dhaganc3@linux-10:~/Documents/447/homework1$ blitz -g aFunProgram[12dBeginning execution...[13d====================  KPL PROGRAM STARTING  ====================^M[14dTest[15dTest^M[16dThis text will echo[17dThis text will echo^M[18dThis q will q not q exit qqqq[19dThis q will q not q exit qqqq^M[20dThe next line will start with q and therefore exit[21dThe next line will start with q and therefore exit^M[22dqueen's quest[23dq^M[24d====================  KPL PROGRAM TERMINATION  ====================^M[26d^M****  A 'debug' instruction was encountered  *****[27d^MDone!  The next instruction to execute will be:[28d000D98: C0100000[24Gsethi   0x0000,r1[28;49H! 0x00000DA8 = 3496 (noGoMessage)[30d^MEntering machine-level debugger...[3d[?12l[?25h[?25l[4d[?12l[?25h[?25l[5d[?12l[?25h[?25l[6d[?12l[?25h[?25l[7d[?12l[?25h[?25l[8d[?12l[?25h[?25l[9d[?12l[?25h[?25l[10d[?12l[?25h[?25l[11d[?12l[?25h[?25l[12d[?12l[?25h[?25l[13d[?12l[?25h[?25l[14d[?12l[?25h[?25l[15d[?12l[?25h[?25l[16d[?12l[?25h[?25l[17d[?12l[?25h[?25l[18d[?12l[?25h[?25l[19d[?12l[?25h[?25l[20d[?12l[?25h[?25l[21d[?12l[?25h[?25l[A[?12l[?25h[?25l[A[?12l[?25h[?25l[A[?12l[?25h[?25l[A[?12l[?25h[?25l[A[?12l[?25h[?25l[A[?12l[?25h[?25l[A[?12l[?25h[?25l[31d[K[15d[?12l[?25h[?25lT[?12l[?25h[?25le[?12l[?25h[?25ls[?12l[?25h[?25lt[?12l[?25h[?25l^M[?12l[?25h[?25l[16d[?12l[?25h[?25l[17d[?12l[?25h[?25l[18d[?12l[?25h[?25l[19d[?12l[?25h[?25l[20d[?12l[?25h[?25l[21d[?12l[?25h[?25l[22d[?12l[?25h[?25l[23;4H[?12l[?25h[?25l[24;7H[?12l[?25h[?25l[25d[?12l[?25h[?25l[26;7H[?12l[?25h[?25l[27d[?12l[?25h[?25l[28d[?12l[?25h[?25l[29d[?12l[?25h[?25l[30;7H[?12l[?25h[?25l7[3;31r8[31d[14S[1;33r[17;1H^M======================================================[18d=====[18;50H=====[19d=====[19;15HThe BLITZ Machine Emulator[19;50H=====[20d=====[20;50H=====[21d=====  Copyright 2001-2007, Harry H. Porter III  =====[22d=====[22;50H=====[23d======================================================[25dEnter a command at the prompt.  Type 'quit' to exit or 'help' for[26dinfo about commands.[27d> q[28dNumber of Disk Reads    = 0[29dNumber of Disk Writes   = 0[30dInstructions Executed   = 590329109[17;7H[?12l[?25h[?25l[18d[?12l[?25h[?25l[19d[?12l[?25h[?25l[A[?12l[?25h[?25l[A[?12l[?25h[?25l[A[?12l[?25h[?25l[A[?12l[?25h[?25l[14;7H[?12l[?25h[?25l[A[?12l[?25h[?25l[A[?12l[?25h[?25l[A[?12l[?25h[?25l[10;7H[?12l[?25h[?25l[A[?12l[?25h[?25l[Aen'[?12l[?25h[?25l[A[?12l[?25h[?25l[A[?12l[?25h[?25l[A[?12l[?25h[?25l[A[?12l[?25h[?25l[A[?12l[?25h[?25l[2;30r[2;1H[14T[1;33r[3;1HScript started on 2021-04-13 17:14:52-0700[4dhaganc3@linux-10:~/Documents/447/homework1$ make[5dasm Runtime.s[6dkpl System -unsafe[7dasm System.s[8dkpl aFunProgram[9dasm aFunProgram.s[10dlddd Runtime.o System.o aFunProgram.o -o aFunProgram[11dhaganc3@linux-10:~/Documents/447/homework1$ blitz -g aFunProgram[12dBeginning execution...[13d====================  KPL PROGRAM STARTING  ====================^M[14dTest[15dTest^M[16dThis text will echo[7G[?12l[?25h[?25l[A[?12l[?25h[?25l[A[?12l[?25h[?25l[A==[?12l[?25h[?25l[A[?12l[?25h[?25l[A[?12l[?25h[?25l[A[?12l[?25h[?25l[A[?12l[?25h[?25l[A[?12l[?25h[?25l[A[?12l[?25h[?25l[A[?12l[?25h[?25l[A[?12l[?25h[?25l[A[?12l[?25h[?25l[A[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[?12l[?25h[?25l[32d[J[33;113H[?12l[?25h[33;1H[?1049l[23;0;0t[?1l>haganc3@linux-10:~/Documents/447/homework1$ rm homework1-script.txt
-haganc3@linux-10:~/Documents/447/homework1$ mna[K[Kake clean
-rm -f Runtime.o System.s System.o aFunProgram.o aFunProgram.s aFunProgram
-haganc3@linux-10:~/Documents/447/homework1$ sci[Kript homework1-script.txt
-Script started, file is homework1-script.txt
-haganc3@linux-10:~/Documents/447/homework1$ make
-asm Runtime.s
-kpl System -unsafe
-asm System.s
-kpl aFunProgram
-asm aFunProgram.s
-lddd Runtime.o System.o aFunProgram.o -o aFunProgram
-haganc3@linux-10:~/Documents/447/homework1$ blitz -g aFunProgram
-Beginning execution...
-====================  KPL PROGRAM STARTING  ====================
-Test
-Test
-This text will echo
-This text will echo
-This q will q not q exit qqqqq
-This q will q not q exit qqqqq
-The next line will start with w and therefore not exit
-The next line will start with w and therefore not exit
-exit
-exit
-q
-q
-====================  KPL PROGRAM TERMINATION  ====================
-
-****  A 'debug' instruction was encountered  *****
-Done!  The next instruction to execute will be:
-000D98: C0100000       sethi   0x0000,r1	! 0x00000DA8 = 3496 (noGoMessage)
-
-Entering machine-level debugger...
-======================================================
-=====                                            =====
-=====         The BLITZ Machine Emulator         =====
-=====                                            =====
-=====  Copyright 2001-2007, Harry H. Porter III  =====
-=====                                            =====
-======================================================
-
-Enter a command at the prompt.  Type 'quit' to exit or 'help' for
-info about commands.
-> q
-Number of Disk Reads    = 0
-Number of Disk Writes   = 0
-Instructions Executed   = 932686804
-Time Spent Sleeping     = 0
-    Total Elapsed Time  = 932686804
-haganc3@linux-10:~/Documents/447/homework1$ exit
-exit
-Script done, file is homework1-script.txt
-haganc3@linux-10:~/Documents/447/homework1$ rm homework1-script.txt
-haganc3@linux-10:~/Documents/447/homework1$ make clean
-rm -f Runtime.o System.s System.o aFunProgram.o aFunProgram.s aFunProgram
-haganc3@linux-10:~/Documents/447/homework1$ script homework1-script.txt
-Script started, file is homework1-script.txt
-haganc3@linux-10:~/Documents/447/homework1$ make
-asm Runtime.s
-kpl System -unsafe
-asm System.s
-kpl aFunProgram
-asm aFunProgram.s
-lddd Runtime.o System.o aFunProgram.o -o aFunProgram
-haganc3@linux-10:~/Documents/447/homework1$ blitz -g aFunProgram
-Beginning execution...
-====================  KPL PROGRAM STARTING  ====================
-Test
-Test
-The text will echo
-The text will echo
-Thisq will not q exit qqqq
-Thisq will not q exit qqqq
-The next w          q' 
-q
-====================  KPL PROGRAM TERMINATION  ====================
-
-****  A 'debug' instruction was encountered  *****
-Done!  The next instruction to execute will be:
-000D98: C0100000       sethi   0x0000,r1	! 0x00000DA8 = 3496 (noGoMessage)
-
-Entering machine-level debugger...
-======================================================
-=====                                            =====
-=====         The BLITZ Machine Emulator         =====
-=====                                            =====
-=====  Copyright 2001-2007, Harry H. Porter III  =====
-=====                                            =====
-======================================================
-
-Enter a command at the prompt.  Type 'quit' to exit or 'help' for
-info about commands.
-> q
-Number of Disk Reads    = 0
-Number of Disk Writes   = 0
-Instructions Executed   = 569925367
-Time Spent Sleeping     = 0
-    Total Elapsed Time  = 569925367
-haganc3@linux-10:~/Documents/447/homework1$ make clean
-rm -f Runtime.o System.s System.o aFunProgram.o aFunProgram.s aFunProgram
-haganc3@linux-10:~/Documents/447/homework1$ rm homework1-script.txt
-haganc3@linux-10:~/Documents/447/homework1$ sci[Kript homework1-script.txt
-Script started, file is homework1-script.txt
-haganc3@linux-10:~/Documents/447/homework1$ make
-asm Runtime.s
-kpl System -unsafe
-asm System.s
-kpl aFunProgram
-asm aFunProgram.s
-lddd Runtime.o System.o aFunProgram.o -o aFunProgram
-haganc3@linux-10:~/Documents/447/homework1$ blitz -g aFunProgram
-Beginning execution...
-====================  KPL PROGRAM STARTING  ====================
-Test
-Test
-The Text Will Echo
-The Text Will Echo
-this q will q not q exitq qqqq
-this q will q not q exitq qqqq
-The next line will start with q and therefore exit
-The next line will start with q and therefore exit
-queen's quest
-q
-====================  KPL PROGRAM TERMINATION  ====================
-
-****  A 'debug' instruction was encountered  *****
-Done!  The next instruction to execute will be:
-000D98: C0100000       sethi   0x0000,r1	! 0x00000DA8 = 3496 (noGoMessage)
-
-Entering machine-level debugger...
-======================================================
-=====                                            =====
-=====         The BLITZ Machine Emulator         =====
-=====                                            =====
-=====  Copyright 2001-2007, Harry H. Porter III  =====
-=====                                            =====
-======================================================
-
-Enter a command at the prompt.  Type 'quit' to exit or 'help' for
-info about commands.
-> q
-Number of Disk Reads    = 0
-Number of Disk Writes   = 0
-Instructions Executed   = 759841455
-Time Spent Sleeping     = 0
-    Total Elapsed Time  = 759841455
-haganc3@linux-10:~/Documents/447/homework1$ exit
-exit
-Script done, file is homework1-script.txt
-haganc3@linux-10:~/Documents/447/homework1$ nano homework1-script.txt
-[?1049h[22;0;0t[1;33r(B[m[4l[?7h[39;49m[?1h=[?1h=[?1h=[?25l[39;49m(B[m[H[2J[31;49H(B[0;7m[ Reading File ](B[m[31;55H(B[0;7m 48 lines ](B[m[H(B[0;7m  GNU nano 2.9.3                                 homework1-script.txt                                            [1;112H(B[m[32d(B[0;7m^G(B[m Get Help     (B[0;7m^O(B[m Write Out    (B[0;7m^W(B[m Where Is     (B[0;7m^K(B[m Cut Text     (B[0;7m^J(B[m Justify[81G(B[0;7m^C(B[m Cur Pos[97G(B[0;7mM-U(B[m Undo[33d(B[0;7m^X(B[m Exit[33;17H(B[0;7m^R(B[m Read File    (B[0;7m^\(B[m Replace[49G(B[0;7m^U(B[m Uncut Text   (B[0;7m^T(B[m To Spell     (B[0;7m^_(B[m Go To Line   (B[0;7mM-E(B[m Redo[31d[3d[39;49m(B[mScript started on 2021-04-13 17:19:38-0700[4dhaganc3@linux-10:~/Documents/447/homework1$ make[5dasm Runtime.s[6dkpl System -unsafe[7dasm System.s[8dkpl aFunProgram[9dasm aFunProgram.s[10dlddd Runtime.o System.o aFunProgram.o -o aFunProgram[11dhaganc3@linux-10:~/Documents/447/homework1$ blitz -g aFunProgram[12dBeginning execution...[13d====================  KPL PROGRAM STARTING  ====================^M[14dTest[15dTest^M[16dThe Text Will Echo[17dThe Text Will Echo^M[18dthis q will q not q exitq qqqq[19dthis q will q not q exitq qqqq^M[20dThe next line will start with q and therefore exit[21dThe next line will start with q and therefore exit^M[22dqueen's quest[23dq^M[24d====================  KPL PROGRAM TERMINATION  ====================^M[26d^M****  A 'debug' instruction was encountered  *****[27d^MDone!  The next instruction to execute will be:[28d000D98: C0100000[24Gsethi   0x0000,r1[28;49H! 0x00000DA8 = 3496 (noGoMessage)[30d^MEntering machine-level debugger...[3d[?12l[?25h[?25l[4d[?12l[?25h[?25l[5d[?12l[?25h[?25l[6d[?12l[?25h[?25l[7d[?12l[?25h[?25l[9d[?12l[?25h[?25l[10d[?12l[?25h[?25l[11d[?12l[?25h[?25l[12d[?12l[?25h[?25l[13d[?12l[?25h[?25l[14d[?12l[?25h[?25l[15d[?12l[?25h[?25l[16d[?12l[?25h[?25l[A[?12l[?25h[?25l[16d[?12l[?25h[?25l[17d[?12l[?25h[?25l[18d[?12l[?25h[?25l[19d[?12l[?25h[?25l[20d[?12l[?25h[?25l[21d[?12l[?25h[?25l[22d[?12l[?25h[?25l[23d[?12l[?25h[?25l[24d[?12l[?25h[?25l[25d[?12l[?25h[?25l[26d[?12l[?25h[?25l[31d[K[25d[?12l[?25h[?25l[A[?12l[?25h[?25l[A[?12l[?25h[?25lq[?12l[?25h[?25l^M[?12l[?25h[?25l[24d[?12l[?25h[?25l[27d[?12l[?25h[?25l[30d[?12l[?25h[?25l7[3;31r8[31d[14S[1;33r[17;1H^M======================================================[18d=====[18;50H=====[19d=====[19;15HThe BLITZ Machine Emulator[19;50H=====[20d=====[20;50H=====[21d=====  Copyright 2001-2007, Harry H. Porter III  =====[22d=====[22;50H=====[23d======================================================[25dEnter a command at the prompt.  Type 'quit' to exit or 'help' for[26dinfo about commands.[27d> q[28dNumber of Disk Reads    = 0[29dNumber of Disk Writes   = 0[30dInstructions Executed   = 759841455[19d[?12l[?25h[?25l[22d[?12l[?25h[?25l[28d[?12l[?25h[?25l[3;31r[31;1H[14S[1;33r[17;1HTime Spent Sleeping     = 0[18;5HTotal Elapsed Time  = 759841455[19dhaganc3@linux-10:~/Documents/447/homework1$ exit[20dexit[22dScript done on 2021-04-13 17:20:39-0700[17d[?12l[?25h[?25l[20d[?12l[?25h[?25l[23d[?12l[?25h[?25l[32d[J[33;113H[?12l[?25h[33;1H[?1049l[23;0;0t[?1l>haganc3@linux-10:~/Documents/447/homework1$ asm Echo.s
-haganc3@linux-10:~/Documents/447/homework1$ lddd Echo.o -o Echo
-haganc3@linux-10:~/Documents/447/homework1$ blitz -g Echo
-Beginning execution...
-queen's quest
-q
-****  A 'debug' instruction was encountered  *****
-Done!  The next instruction to execute will be:
-                   cont:
-0000A4: A1FFFFAC       jmp     0xFFFFAC		! targetAddr = loop
-
-Entering machine-level debugger...
-======================================================
-=====                                            =====
-=====         The BLITZ Machine Emulator         =====
-=====                                            =====
-=====  Copyright 2001-2007, Harry H. Porter III  =====
-=====                                            =====
-======================================================
-
-Enter a command at the prompt.  Type 'quit' to exit or 'help' for
-info about commands.
-> q
-Number of Disk Reads    = 0
-Number of Disk Writes   = 0
-Instructions Executed   = 74522792
-Time Spent Sleeping     = 0
-    Total Elapsed Time  = 74522792
-haganc3@linux-10:~/Documents/447/homework1$ make clean
-rm -f Runtime.o System.s System.o aFunProgram.o aFunProgram.s aFunProgram
-haganc3@linux-10:~/Documents/447/homework1$ ls
-aFunProgram.h  DISK  Echo.o  Hello.s	   HelloWorld.k  homework1-script.txt  Runtime.s  System.k
-aFunProgram.k  Echo  Echo.s  HelloWorld.h  HelloWorld.s  makefile	       System.h   typescript
-haganc3@linux-10:~/Documents/447/homework1$ git status
-On branch homework1
-Your branch is up to date with 'origin/homework1'.
-
-Changes not staged for commit:
-  (use "git add <file>..." to update what will be committed)
-  (use "git checkout -- <file>..." to discard changes in working directory)
-
-	[31mmodified:   Runtime.s[m
-	[31mmodified:   System.h[m
-	[31mmodified:   makefile[m
-
-Untracked files:
-  (use "git add <file>..." to include in what will be committed)
-
-	[31m.nfs000000000000adae00000145[m
-	[31m.nfs000000000000cfca00000147[m
-	[31mEcho[m
-	[31mEcho.o[m
-	[31mHelloWorld.s[m
-	[31maFunProgram.h[m
-	[31maFunProgram.k[m
-	[31mhomework1-script.txt[m
-	[31mtypescript[m
-
-no changes added to commit (use "git add" and/or "git commit -a")
-haganc3@linux-10:~/Documents/447/homework1$ git[K[K[Kgit add .
-haganc3@linux-10:~/Documents/447/homework1$ gir[K[K[Kls
-aFunProgram.h  DISK  Echo.o  Hello.s	   HelloWorld.k  homework1-script.txt  Runtime.s  System.k
-aFunProgram.k  Echo  Echo.s  HelloWorld.h  HelloWorld.s  makefile	       System.h   typescript
-haganc3@linux-10:~/Documents/447/homework1$ r[Knano typescript
-[?1049h[22;0;0t[1;33r(B[m[4l[?7h[39;49m[?1h=[?1h=[?1h=[?25l[39;49m(B[m[H[2J[31;49H(B[0;7m[ Reading File ](B[m[31;48H(B[0;7m[ Read 120 lines ](B[m[H(B[0;7m  GNU nano 2.9.3                                      typescript                                                 [1;112H(B[m[32d(B[0;7m^G(B[m Get Help     (B[0;7m^O(B[m Write Out    (B[0;7m^W(B[m Where Is     (B[0;7m^K(B[m Cut Text     (B[0;7m^J(B[m Justify[81G(B[0;7m^C(B[m Cur Pos[97G(B[0;7mM-U(B[m Undo[33d(B[0;7m^X(B[m Exit[33;17H(B[0;7m^R(B[m Read File    (B[0;7m^\(B[m Replace[49G(B[0;7m^U(B[m Uncut Text   (B[0;7m^T(B[m To Spell     (B[0;7m^_(B[m Go To Line   (B[0;7mM-E(B[m Redo[31d[3d[39;49m(B[mScript started on 2021-04-13 17:12:12-0700[4dmake blitz -g aFunProgram[5dTest[6dhaganc3@linux-10:~/Documents/447/homework1$ make blitz -g aFunProgram[7dmake: invalid option -- 'g'[8dUsage: make [options] [target] ...[9dOptions:[10;3H-b, -m[10;31HIgnored for compatibility.[11;3H-B, --always-make[11;31HUnconditionally make all targets.[12;3H-C DIRECTORY, --directory=DIRECTORY[13;31HChange to DIRECTORY before doing anything.[14;3H-d[14;31HPrint lots of debugging information.[15;3H--debug[=FLAGS][15;31HPrint various types of debugging information.[16;3H-e, --environment-overrides[17d Environment variables override makefiles.[18;3H--eval=STRING[18;31HEvaluate STRING as a makefile statement.[19;3H-f FILE, --file=FILE, --makefile=FILE[20;31HRead FILE as a makefile.[21;3H-h, --help[21;31HPrint this message and exit.[22;3H-i, --ignore-errors[22;31HIgnore errors from recipes.[23;3H-I DIRECTORY, --include-dir=DIRECTORY[24;31HSearch DIRECTORY for included makefiles.[25;3H-j [N], --jobs[=N][25;31HAllow N jobs at once; infinite jobs with no arg.[26;3H-k, --keep-going[26;31HKeep going when some targets can't be made.[27;3H-l [N], --load-average[=N], --max-load[=N][28;31HDon't start multiple jobs unless load is below N.[29;3H-L, --check-symlink-times   Use the latest mtime between symlinks and target.[30;3H-n, --just-print, --dry-run, --recon[3d[?12l[?25h[?25l[4d[?12l[?25h[?25l[5d[?12l[?25h[?25l[6d[?12l[?25h[?25l[7d[?12l[?25h[?25l[8d[?12l[?25h[?25l[9d[?12l[?25h[?25l[10d[?12l[?25h[?25l[11d[?12l[?25h[?25l[12d[?12l[?25h[?25l[13d[?12l[?25h[?25l[14d[?12l[?25h[?25l[15d[?12l[?25h[?25l[16d[?12l[?25h[?25l[17d[?12l[?25h[?25l[18d[?12l[?25h[?25l[19d[?12l[?25h[?25l[20d[?12l[?25h[?25l[21d[?12l[?25h[?25l[22d[?12l[?25h[?25l[23d[?12l[?25h[?25l[24d[?12l[?25h[?25l[25d[?12l[?25h[?25l[26d[?12l[?25h[?25l[27d[?12l[?25h[?25l[28d[?12l[?25h[?25l[31d[K[29d[?12l[?25h[?25l[30d[?12l[?25h[?25l7[3;31r8[31d[14S[1;33r[17;31HDon't actually run any recipe; just print them.[18;3H-o FILE, --old-file=FILE, --assume-old=FILE[19;31HConsider FILE to be very old and don't remake it.[20;3H-O[TYPE], --output-sync[=TYPE][21dSynchronize output of parallel jobs by TYPE.[22;3H-p, --print-data-base[31GPrint make's internal database.[23;3H-q, --question[23;31HRun no recipe; exit status says if up to date.[24;3H-r, --no-builtin-rules[31GDisable the built-in implicit rules.[25;3H-R, --no-builtin-variables  Disable the built-in variable settings.[26;3H-s, --silent, --quiet[31GDon't echo recipes.[27;3H-S, --no-keep-going, --stop[28d Turns off -k.[29;3H-t, --touch[29;31HTouch targets instead of remaking them.[30;3H--trace[30;31HPrint tracing information.[17d[?12l[?25h[?25l[18d[?12l[?25h[?25l[19d[?12l[?25h[?25l[20d[?12l[?25h[?25l[21d[?12l[?25h[?25l[22d[?12l[?25h[?25l[24d[?12l[?25h[?25l[25d[?12l[?25h[?25l[26d[?12l[?25h[?25l[27d[?12l[?25h[?25l[28d[?12l[?25h[?25l[29d[?12l[?25h[?25l[30d[?12l[?25h[?25l7[3;31r8[31d[14S[1;33r[17;3H-v, --version[17;31HPrint the version number of make and exit.[18;3H-w, --print-directory[31GPrint the current directory.[19;3H--no-print-directory[19;31HTurn off -w, even if it was turned on implicitly.[20;3H-W FILE, --what-if=FILE, --new-file=FILE, --assume-new=FILE[21;31HConsider FILE to be infinitely new.[22;3H--warn-undefined-variables  Warn when an undefined variable is referenced.[24dThis program built for x86_64-pc-linux-gnu[25dReport bugs to [35m<bug-make@gnu.org>[26d[39m(B[mhaganc3@linux-10:~/Documents/447/homework1$ Test[27dThis text will echo[28dThis q will q not q exit qqqq[29dThe next line will start with q and therefore exit[30dqueen's quest[17d[?12l[?25h[?25l[18d[?12l[?25h[?25l[19d[?12l[?25h[?25l[20d[?12l[?25h[?25l[21d[?12l[?25h[?25l[22d[?12l[?25h[?25l[23d[?12l[?25h[?25l[24d[?12l[?25h[?25l[25d[?12l[?25h[?25l[26d[?12l[?25h[?25l[27d[?12l[?25h[?25l[28d[?12l[?25h[?25l[29d[?12l[?25h[?25l[30d[?12l[?25h[?25l7[3;31r8[31d[14S[1;33r[18;1HCommand 'Test' not found, did you mean:[20;3Hcommand 'test' from deb coreutils[22dTry: apt install <deb name>[24dhaganc3@linux-10:~/Documents/447/homework1$ This text will echo[25dq[26dexit[27dThis: command not found[28dhaganc3@linux-10:~/Documents/447/homework1$ This q will q not q exit qqqq[29dThis: command not found[30dhaganc3@linux-10:~/Documents/447/homework1$ The next line will start with q and therefore exit[17d[?12l[?25h[?25l[18d[?12l[?25h[?25l[19d[?12l[?25h[?25l[20d[?12l[?25h[?25l[21d[?12l[?25h[?25l[22d[?12l[?25h[?25l[23d[?12l[?25h[?25l[24d[?12l[?25h[?25l[25d[?12l[?25h[?25l[26d[?12l[?25h[?25l[27d[?12l[?25h[?25l[28d[?12l[?25h[?25l[29d[?12l[?25h[?25l[30d[?12l[?25h[?25l7[3;31r8[31d[14S[1;33r[18;1HCommand 'The' not found, did you mean:[20;3Hcommand 'he' from deb node-he[21;3Hcommand 'the' from deb the[23dTry: apt install <deb name>[25dhaganc3@linux-10:~/Documents/447/homework1$ queen's quest[26d> q[27d> exit[28d> make clean[29d> rm script homework1-script.txt[30d> script homework1-script.txt[17d[?12l[?25h[?25l[18d[?12l[?25h[?25l[19d[?12l[?25h[?25l[20d[?12l[?25h[?25l[21d[?12l[?25h[?25l[22d[?12l[?25h[?25l[23d[?12l[?25h[?25l[24d[?12l[?25h[?25l[25d[?12l[?25h[?25l[26d[?12l[?25h[?25l[27d[?12l[?25h[?25l[28d[?12l[?25h[?25l[29d[?12l[?25h[?25l[30d[?12l[?25h[?25l7[3;31r8[31d[14S[1;33r[17;1H> make[18d> blitz -g aFunProgram[19d> Test[20d> This text will echo[21d> This q will q not q exit qqqq[22d> The next line will start with q and therefore exit[23d> queen's quest[24dq[25dexit[26dqueens quest[27dq[28dexit[29dmake clean[30drm script homework1-script.txt[17d[?12l[?25h[?25l[18d[?12l[?25h[?25l[19d[?12l[?25h[?25l[20d[?12l[?25h[?25l[21d[?12l[?25h[?25l[22d[?12l[?25h[?25l[23d[?12l[?25h[?25l[24d[?12l[?25h[?25l[25d[?12l[?25h[?25l[26d[?12l[?25h[?25l[27d[?12l[?25h[?25l[28d[?12l[?25h[?25l[29d[?12l[?25h[?25l[30d[?12l[?25h[?25l7[3;31r8[31d[14S[1;33r[17;1Hscript homework1-script.txt[18dmake[19dblitz -g aFunProgram[20dTest[21dThis text will echo[22dThis q will q not q exit qqqq[23dThe next line will start with q and therefore exit[24dqueens: command not found[25dhaganc3@linux-10:~/Documents/447/homework1$ q[27dCommand 'q' not found, but can be installed with:[29dsnap install q[29;38H# version 1.6.3-1, or[30dapt  install python-q-text-as-data[17d[?12l[?25h[?25l[18d[?12l[?25h[?25l[19d[?12l[?25h[?25l[20d[?12l[?25h[?25l[21d[?12l[?25h[?25l[22d[?12l[?25h[?25l[23d[?12l[?25h[?25l[24d[?12l[?25h[?25l[25d[?12l[?25h[?25l[26d[?12l[?25h[?25l[27d[?12l[?25h[?25l[28d[?12l[?25h[?25l[29d[?12l[?25h[?25l[30d[?12l[?25h[?25l7[3;31r8[31d[14S[1;33r[17;1Hapt  install python3-q-text-as-data[19dSee 'snap info q' for additional versions.[21dhaganc3@linux-10:~/Documents/447/homework1$ exit[22dexit[24dScript done on 2021-04-13 17:13:02-0700[17d[?12l[?25h[?25l[18d[?12l[?25h[?25l[19d[?12l[?25h[?25l[20d[?12l[?25h[?25l[21d[?12l[?25h[?25l[22d[?12l[?25h[?25l[23d[?12l[?25h[?25l[24d[?12l[?25h[?
