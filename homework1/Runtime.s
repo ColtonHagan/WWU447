@@ -17,6 +17,7 @@
 	.export	MemoryZero
 	.export	MemoryCopy
 	.export	getCatchStack
+	.export GetCh
 	.export	RuntimeExit
 !
 ! The following functions are implemented in this file and
@@ -1010,3 +1011,38 @@ _PerformThrow_found:				! FOUND:
 	load	[r1+16],r6			!   Save the new SP in r6
 	jmp	r2				!   jump to catch code
 
+! Written by Colton Hagan, Based on Echo by Harry Porter
+!
+! The routine GetCh, waits until an input character is availabe.
+! It then reads it in, performing checks (and if needed changeds)
+! to make sure the char can be print easly.
+! It then returns it.
+
+GetCh:
+		set	SERIAL_STAT,r3	! Initialize ptr to SERIAL_STAT word
+		set	SERIAL_DATA,r4	! Initialize ptr to SERIAL_DATA word
+wait1:					!   WAIT1:
+		load	[r3],r5		!     r5 := serial status word
+		btst	0x00000001,r5   !     if status[charAvail] == 0 then
+		be	wait1		!     .    goto WAIT1
+		load    [r4],r2		!   Get the character
+                cmp	r2,'\n'		!   if char != \n
+		be	charOK		!   .
+                cmp	r2,'\r'		!   .  and char != \r
+		be	charOK		!   .
+                cmp	r2,' '		!   .  and char < ' ' char then
+                bge	charOK		!   .
+                mov	'?',r2		!     char := '?'
+charOK:					!   endIf
+                cmp	r2,0x7e		!   if char > 7e char then
+                ble	charOK2		!   .
+                mov	'?',r2		!     char := '?'
+charOK2:				!   endIf
+wait2:					!   WAIT2:
+		load	[r3],r5		!     r5 := serial status word
+		btst	0x00000002,r5   !     if status[outputReady] == 0 then
+		be	wait2		!     .    goto WAIT2
+		storeb	r2,[r15+4]	!   Store char in r2 in result position
+SERIAL_STAT	=	0x00ffff00
+SERIAL_DATA	=	0x00ffff04
+ret					!   Return

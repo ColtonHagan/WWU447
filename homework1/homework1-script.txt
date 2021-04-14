@@ -1,0 +1,48 @@
+Script started on 2021-04-13 17:19:38-0700
+haganc3@linux-10:~/Documents/447/homework1$ make
+asm Runtime.s
+kpl System -unsafe
+asm System.s
+kpl aFunProgram
+asm aFunProgram.s
+lddd Runtime.o System.o aFunProgram.o -o aFunProgram
+haganc3@linux-10:~/Documents/447/homework1$ blitz -g aFunProgram
+Beginning execution...
+====================  KPL PROGRAM STARTING  ====================
+Test
+Test
+The Text Will Echo
+The Text Will Echo
+this q will q not q exitq qqqq
+this q will q not q exitq qqqq
+The next line will start with q and therefore exit
+The next line will start with q and therefore exit
+queen's quest
+q
+====================  KPL PROGRAM TERMINATION  ====================
+
+****  A 'debug' instruction was encountered  *****
+Done!  The next instruction to execute will be:
+000D98: C0100000       sethi   0x0000,r1	! 0x00000DA8 = 3496 (noGoMessage)
+
+Entering machine-level debugger...
+======================================================
+=====                                            =====
+=====         The BLITZ Machine Emulator         =====
+=====                                            =====
+=====  Copyright 2001-2007, Harry H. Porter III  =====
+=====                                            =====
+======================================================
+
+Enter a command at the prompt.  Type 'quit' to exit or 'help' for
+info about commands.
+> q
+Number of Disk Reads    = 0
+Number of Disk Writes   = 0
+Instructions Executed   = 759841455
+Time Spent Sleeping     = 0
+    Total Elapsed Time  = 759841455
+haganc3@linux-10:~/Documents/447/homework1$ exit
+exit
+
+Script done on 2021-04-13 17:20:39-0700

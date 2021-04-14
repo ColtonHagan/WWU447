@@ -4,19 +4,7 @@
 # most-recent-update times.
 # 
 
-all: Echo Hello HelloWorld
-
-Echo.o: Echo.s
-	asm Echo.s
-
-Echo: Echo.o
-	lddd Echo.o -o Echo
-
-Hello.o: Hello.s
-	asm Hello.s
-
-Hello: Hello.o
-	lddd Hello.o -o Hello
+all: aFunProgram
 
 Runtime.o: Runtime.s
 	asm Runtime.s
@@ -27,16 +15,13 @@ System.s: System.h System.k
 System.o: System.s
 	asm System.s
 
-HelloWorld.s: HelloWorld.h HelloWorld.k System.h
-	kpl HelloWorld
+aFunProgram.s: aFunProgram.h aFunProgram.k System.h
+	kpl aFunProgram
 
-HelloWorld.o: HelloWorld.s
-	asm HelloWorld.s
+aFunProgram.o: aFunProgram.s
+	asm aFunProgram.s
 
-HelloWorld: Runtime.o System.o HelloWorld.o
-	lddd Runtime.o System.o HelloWorld.o -o HelloWorld
-
+aFunProgram: Runtime.o System.o aFunProgram.o
+	lddd Runtime.o System.o aFunProgram.o -o aFunProgram
 clean:
-	rm -f Echo.o Echo
-	rm -f Hello.o Hello
-	rm -f Runtime.o System.s System.o HelloWorld.o HelloWorld.s HelloWorld
+	rm -f Runtime.o System.s System.o aFunProgram.o aFunProgram.s aFunProgram
