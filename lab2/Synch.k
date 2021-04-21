@@ -2,7 +2,7 @@ code Synch
 
   -- OS Class: Project 2
   --
-  -- <PUT YOUR NAME HERE>
+  -- Colton Hagan
 
 -----------------------------  Semaphore  ---------------------------------
 
@@ -90,32 +90,56 @@ code Synch
     --         Each mutex must be initialized.
     --    IsHeldByCurrentThread()
     --         Return TRUE iff the current (invoking) thread holds a lock
-    --         on the mutex.
+    --         on the mutex.	
 
       ----------  Mutex . Init  ----------
 
       method Init ()
-          FatalError ("Unimplemented method")
-        endMethod
+           waitingThreads = new List [Thread]
+      endMethod
 
       ----------  Mutex . Lock  ----------
 
       method Lock ()
-          FatalError ("Unimplemented method")
-        endMethod
+	var
+	  oldIntStat: int
+        oldIntStat = SetInterruptsTo (DISABLED)
+	if currentThread == heldBy
+		FatalError ("Current thread asking to lock the mutex already holds a lock on the mutex")
+	endIf
+	if heldBy != null
+          waitingThreads.AddToEnd(currentThread) 
+	  currentThread.Sleep()
+	endIf
+	heldBy = currentThread
+	oldIntStat = SetInterruptsTo (oldIntStat)
+      endMethod
 
       ----------  Mutex . Unlock  ----------
 
       method Unlock ()
-          FatalError ("Unimplemented method")
-        endMethod
+          var
+            oldIntStat: int
+            t: ptr to Thread
+          oldIntStat = SetInterruptsTo (DISABLED)
+	  if currentThread != heldBy
+                FatalError ("Current thread asking to unlock doesn't hold the lock")
+	  endIf
+	  t = waitingThreads.Remove()
+	  if t
+            t.status = READY
+            readyList.AddToEnd (t)
+	  endIf
+	  heldBy = t
+	  oldIntStat = SetInterruptsTo (oldIntStat)
+      endMethod
 
       ----------  Mutex . IsHeldByCurrentThread  ----------
 
       method IsHeldByCurrentThread () returns bool
-          FatalError ("Unimplemented method")
-          return false
-        endMethod
+          return currentThread == heldBy
+      endMethod
+
 
   endBehavior
 
@@ -212,7 +236,5 @@ code Synch
           endWhile
           oldIntStat = SetInterruptsTo (oldIntStat)
         endMethod
-
   endBehavior
-
 endCode
