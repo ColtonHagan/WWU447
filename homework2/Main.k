@@ -3,6 +3,9 @@ code Main
   -- OS Class: Project 2
   --
   -- Colton Hagan
+  -- 4/27/21
+  -- CS447
+  -- ProducerConsumer Problem
   --
   -- This package contains the following:
   --     SimpleThreadExample
@@ -366,6 +369,7 @@ code Main
       endWhile
     endFunction
 
+  -- BufferMonitor class definition
   class BufferMonitor
     superclass Object
     fields
@@ -382,11 +386,12 @@ code Main
       removeItem ()
   endClass
 
+  -- Perform synchronization by adding and removing chars from a buffer
+  -- Prints output whenever a item is added or removed
   behavior BufferMonitor
 
     method Init ()
-      -- Initialize all fields.
-      -- ...unimplemented...
+	-- Initializes all fields
 	buffer = new array of char {BUFFER_SIZE of '?'}
 	not_full = new Condition
 	not_full.Init()
@@ -396,27 +401,23 @@ code Main
 	mLock.Init()
     endMethod
 
+      -- Adds given char to buffer and prints
       method addItem (c: char)
         var 
-                i, j: int
-       
-        -- .. Lock, wait on condition then add. Signal if necessary and print before unlocking.
-        -- var i and j have been declared and will be used for printing.        
-	-- ...unimplemented...
-	--FatalError("addItem unimplemented!\n")
+                i, j: int -- For printing
+	--locks
 	if(!mLock.IsHeldByCurrentThread())
 		mLock.Lock()
 	endIf
+	--wait then add
 	if(bufferLength == BUFFER_SIZE)
 		not_full.Wait(&mLock)
 	endIf
 	buffer[bufferNextIn] = c
 	bufferNextIn = (bufferNextIn + 1) % BUFFER_SIZE
 	bufferLength = bufferLength + 1
-	--if(bufferLength == 1)
-		not_empty.Signal(&mLock)
-	--endIf
-
+	-- signal
+	not_empty.Signal(&mLock)
         ------------Print the thread name, which tells what we are doing.----
             print ("   ")
             print (currentThread.name)  -- Will include right number of spaces after name
@@ -433,34 +434,30 @@ code Main
             printChar (' ')
             endFor
         -------------- Printing Done ------------------------------------
-
-        -- unlock code goes here
+        -- unlocks
 	if(mLock.IsHeldByCurrentThread())
                 mLock.Unlock()
         endIf
         endMethod
 
+    -- Removes char from buffer and prints
     method removeItem ()
         var 
-            c: char
-            i, j: int 
-        -- var c should store the removed item, it will be used for printing it.
-        -- var i and j will be used for printing.
-        -- .. Lock, wait on condition then remove. Signal if necessary and print before unlocking.
-        -- ...unimplemented...
-	-- FatalError("removeItem unimplemented!\n")
+            c: char -- removed item
+            i, j: int -- for printing
+	-- locks
 	if(!mLock.IsHeldByCurrentThread())
                 mLock.Lock()
         endIf
+	-- wait then remove
 	if(bufferLength == 0)
 		not_empty.Wait(&mLock)
 	endIf
 	c = buffer[bufferNextOut]
 	bufferNextOut = (bufferNextOut + 1) % BUFFER_SIZE
 	bufferLength = bufferLength - 1
-	--if(bufferLength == BUFFER_SIZE - 1)
-		not_full.Signal(&mLock)
-	--endIf
+	--signal
+	not_full.Signal(&mLock)
         -----------Print the thread name, which tells what we are doing.----
             print ("   ")
             print (currentThread.name)  -- Will include right number of spaces after name
@@ -477,8 +474,7 @@ code Main
             printChar (' ')
             endFor
         ---------------- Printing Done ------------------------------------
-
-        -- ..unlock code goes here
+        -- unlocks
 	if(mLock.IsHeldByCurrentThread())
                 mLock.Unlock()
         endIf
