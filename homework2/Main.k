@@ -375,6 +375,7 @@ code Main
       bufferLength: int
       not_full: Condition
       not_empty: Condition
+      mLock: Mutex
     methods
       Init ()
       addItem (c: char)
@@ -386,6 +387,13 @@ code Main
     method Init ()
       -- Initialize all fields.
       -- ...unimplemented...
+	buffer = new array of char {BUFFER_SIZE of '?'}
+	not_full = new Condition
+	not_full.Init()
+	not_empty = new Condition
+	not_empty.Init()
+	mLock = new Mutex
+	mLock.Init()
     endMethod
 
       method addItem (c: char)
@@ -393,11 +401,21 @@ code Main
                 i, j: int
        
         -- .. Lock, wait on condition then add. Signal if necessary and print before unlocking.
-        -- var i and j have been declared and will be used for printing. 
-       
-        -- ...unimplemented...
-	FatalError("addItem unimplemented!\n")
-
+        -- var i and j have been declared and will be used for printing.        
+	-- ...unimplemented...
+	--FatalError("addItem unimplemented!\n")
+	if(!mLock.IsHeldByCurrentThread())
+		mLock.Lock()
+	endIf
+	if(bufferLength == BUFFER_SIZE)
+		not_full.Wait(&mLock)
+	endIf
+	buffer[bufferNextIn] = c
+	bufferNextIn = (bufferNextIn + 1) % BUFFER_SIZE
+	bufferLength = bufferLength + 1
+	--if(bufferLength == 1)
+		not_empty.Signal(&mLock)
+	--endIf
 
         ------------Print the thread name, which tells what we are doing.----
             print ("   ")
@@ -417,6 +435,9 @@ code Main
         -------------- Printing Done ------------------------------------
 
         -- unlock code goes here
+	if(mLock.IsHeldByCurrentThread())
+                mLock.Unlock()
+        endIf
         endMethod
 
     method removeItem ()
@@ -425,14 +446,21 @@ code Main
             i, j: int 
         -- var c should store the removed item, it will be used for printing it.
         -- var i and j will be used for printing.
-        
         -- .. Lock, wait on condition then remove. Signal if necessary and print before unlocking.
- 
-        
         -- ...unimplemented...
-	      FatalError("removeItem unimplemented!\n")
-	
-
+	-- FatalError("removeItem unimplemented!\n")
+	if(!mLock.IsHeldByCurrentThread())
+                mLock.Lock()
+        endIf
+	if(bufferLength == 0)
+		not_empty.Wait(&mLock)
+	endIf
+	c = buffer[bufferNextOut]
+	bufferNextOut = (bufferNextOut + 1) % BUFFER_SIZE
+	bufferLength = bufferLength - 1
+	--if(bufferLength == BUFFER_SIZE - 1)
+		not_full.Signal(&mLock)
+	--endIf
         -----------Print the thread name, which tells what we are doing.----
             print ("   ")
             print (currentThread.name)  -- Will include right number of spaces after name
@@ -451,8 +479,10 @@ code Main
         ---------------- Printing Done ------------------------------------
 
         -- ..unlock code goes here
-     
-	 endMethod
+	if(mLock.IsHeldByCurrentThread())
+                mLock.Unlock()
+        endIf
+	endMethod
   endBehavior
 
 
