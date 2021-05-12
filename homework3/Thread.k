@@ -14,6 +14,11 @@ code Thread
       Cleari ()
       print ("Initializing Thread Scheduler...\n")
       readyList = new List [Thread]
+      one = new List [Thread]
+      two = new List [Thread]
+      three = new List [Thread]
+      four = new List [Thread]
+      five = new List [Thread]
       threadsToBeDestroyed = new List [Thread]
       mainThread = new Thread
       mainThread.Init ("main-thread")
@@ -244,7 +249,38 @@ code Thread
       -- t.Print ()
       oldStatus = SetInterruptsTo (oldStatus)
     endFunction
+--------------------------------------------------------------------------------------------
+function highestPrioInt () returns int
+	if one.IsEmpty()
+		return 1
+	elseIf two.IsEmpty()
+		return 2
+	elseIf three.IsEmpty()
+		return 3
+	elseIf four.IsEmpty()
+		return 4
+	elseIf five.IsEmpty()
+		return 5
+	endIf
+	return -1
+endFunction
 
+function highestPrioThread() returns ptr to Thread
+	var prioInt : int
+	prioInt = highestPrioInt()
+	if prioInt == 1
+		return one.Remove()
+	elseIf prioInt == 2
+		return two.Remove()
+	elseIf prioInt == 3
+		return three.Remove()
+	elseIf prioInt == 4
+		return four.Remove()
+	elseIf prioInt == 5
+		return five.Remove()
+	endIf
+	return null 
+endFunction
 -----------------------------  Thread  ---------------------------------
 
   behavior Thread
@@ -424,7 +460,25 @@ code Thread
           endSwitch
           oldStatus = SetInterruptsTo (oldStatus)
       endMethod
+  --------------------------------------------
+  
+  method setPriority(prio: int)
+	priority = prio
+	if prio == 1
+		one.AddToEnd(self)
+	elseIf prio == 2
+		two.AddToEnd(self)
+	elseIf prio == 3
+		three.AddToEnd(self)
+	elseIf prio == 4
+		four.AddToEnd(self)
+	elseIf prio == 5
+		five.AddToEnd(self)
+	endIf
+  endMethod
 
+  method getPriority() returns int
+	return priority
+  endMethod
   endBehavior
-
 endCode

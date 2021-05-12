@@ -66,6 +66,8 @@
 	.import	_P_Thread_FatalError
 	.import	_P_Thread_SetInterruptsTo
 	.import	_P_Thread_TimerInterruptHandler
+	.import	_P_Thread_highestPrioInt
+	.import	_P_Thread_highestPrioThread
 	.import	Switch
 	.import	ThreadStartUp
 ! Externally visible functions in this package
@@ -98,6 +100,11 @@
 ! The following interfaces are from this package
 ! Globals imported from other packages
 	.import	_P_Thread_readyList
+	.import	_P_Thread_one
+	.import	_P_Thread_two
+	.import	_P_Thread_three
+	.import	_P_Thread_four
+	.import	_P_Thread_five
 	.import	_P_Thread_currentThread
 	.import	_P_Thread_mainThread
 	.import	_P_Thread_idleThread
@@ -207,9 +214,9 @@ _Label_9:
 	.import	_CheckVersion_P_List_
 	cmp	r1,0
 	bne	_Label_10
-! Make sure _P_Thread_ has hash value 0xd98e6cc5 (decimal -644977467)
+! Make sure _P_Thread_ has hash value 0x1b47eebc (decimal 457699004)
 	set	_packageName,r2
-	set	0xd98e6cc5,r3
+	set	0x1b47eebc,r3
 	call	_CheckVersion_P_Thread_
 	.import	_CheckVersion_P_Thread_
 	cmp	r1,0
@@ -698,7 +705,7 @@ _Label_41:
 	cmp	r2,0
 	be	 _runtimeErrorUninitializedObject
 	store	r1,[r15]
-	add	r2,16,r2
+	add	r2,24,r2
 	call	r2
 ! END IF...
 _Label_42:
@@ -987,7 +994,7 @@ _Label_59:
 	cmp	r2,0
 	be	 _runtimeErrorUninitializedObject
 	store	r1,[r15]
-	add	r2,16,r2
+	add	r2,24,r2
 	call	r2
 ! END IF...
 _Label_63:
@@ -1570,7 +1577,7 @@ _Label_102:
 	cmp	r2,0
 	be	 _runtimeErrorUninitializedObject
 	store	r1,[r15]
-	add	r2,16,r2
+	add	r2,24,r2
 	call	r2
 ! SEND STATEMENT...
 	mov	199,r13		! source line 199
