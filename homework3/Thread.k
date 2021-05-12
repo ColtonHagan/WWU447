@@ -45,10 +45,10 @@ code Thread
       var junk: int
       while true
         junk = SetInterruptsTo (DISABLED)
-        if readyList.IsEmpty ()
+        if (highestPrioThread() == null)
           Wait ()
         else
-          currentThread.Yield ()
+          currentThread.Yield()
         endIf
       endWhile
     endFunction
@@ -96,6 +96,7 @@ code Thread
     var oldStatus: int
       oldStatus = SetInterruptsTo (DISABLED)
         print ("Here is the ready list:\n")
+	--Question: do you want to print every readylist? Just the current one?
         readyList.ApplyToEach (ThreadPrint)
       oldStatus = SetInterruptsTo (oldStatus)
     endFunction
@@ -206,7 +207,10 @@ code Thread
     --
       currentInterruptStatus = DISABLED
       --printChar ('_')
-      currentThread.Yield ()
+      -- Need to implement aging
+      if(highestPrioInt() >= currentThread.getPriority())
+	currentThread.Yield ()
+      endIf
       currentInterruptStatus = ENABLED
     endFunction
 
@@ -264,7 +268,7 @@ function highestPrioInt () returns int
 	endIf
 	return -1
 endFunction
-
+------------------------------------------------------------------------------------------
 function highestPrioThread() returns ptr to Thread
 	var prioInt : int
 	prioInt = highestPrioInt()
@@ -281,8 +285,20 @@ function highestPrioThread() returns ptr to Thread
 	endIf
 	return null 
 endFunction
+----------------------------------------------------------------------------------------
+function intToQ(prio:int) returns List [Thread]
+	if(prio == 1)
+		return one
+	elseIf(prio == 2)
+		return two
+	elseIf(prio == 3)
+		return three
+	elseIf(prio == 4)
+		return four
+	endIf
+	return five
+endFunction
 -----------------------------  Thread  ---------------------------------
-
   behavior Thread
 
       ----------  Thread . Init  ----------
@@ -300,6 +316,8 @@ endFunction
           systemStack [SYSTEM_STACK_SIZE-1] = STACK_SENTINEL
           stackTop = & (systemStack[SYSTEM_STACK_SIZE-1])
           regs = new array of int { 13 of 0 }
+	  priority = 3
+	  time = 0
         endMethod
 
       ----------  Thread . Fork  ----------
@@ -391,7 +409,7 @@ endFunction
           -- print (name)
           -- print ("\n")
           status = BLOCKED
-          nextTh = readyList.Remove ()
+          nextTh = highestPrioThread ()
           if nextTh == null
             FatalError ("Ready list should always contain the idle thread")
           endIf
@@ -476,7 +494,7 @@ endFunction
 		five.AddToEnd(self)
 	endIf
   endMethod
-
+-------------------------------------------------
   method getPriority() returns int
 	return priority
   endMethod

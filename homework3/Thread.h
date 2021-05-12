@@ -19,6 +19,7 @@ header Thread
     TimerInterruptHandler ()
     highestPrioInt () returns int
     highestPrioThread () returns ptr to Thread
+    intToQ (prio:int) returns List [Thread]
     external Switch (prevThread, nextThread: ptr to Thread)
     external ThreadStartUp ()
 
