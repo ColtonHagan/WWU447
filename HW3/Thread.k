@@ -26,11 +26,11 @@ code Thread
       mainThread.setPriority(1)
       idleThread = new Thread
       idleThread.Init ("idle-thread")
-      idleThread.setPriority(1)
+      --idleThread.setPriority(1)
       --idleThread.setPriority(2)
       --idleThread.setPriority(3)
       --idleThread.setPriority(4)
-      --idleThread.setPriority(5)
+      idleThread.setPriority(5)
       idleThread.Fork (IdleFunction, 0)
       currentThread = &mainThread
       currentInterruptStatus = ENABLED
@@ -50,7 +50,7 @@ code Thread
     --
       var junk: int
       --temp
-      --print("Idle function is being entered")
+      print("Idle function is being entered")
       while true
         junk = SetInterruptsTo (DISABLED)
         if (one.IsEmpty() && two.IsEmpty() && three.IsEmpty() && four.IsEmpty() && five.IsEmpty())
@@ -224,7 +224,7 @@ code Thread
     --
       var 
 	highestPrio:int
-	tempThread: ptr to Thread
+	--tempThread: ptr to Thread
       currentInterruptStatus = DISABLED
       if !one.IsEmpty()
 	highestPrio = 1
@@ -238,6 +238,7 @@ code Thread
         highestPrio = 5
       endIf
       if(highestPrio <= currentThread.getPriority())
+	/* --Checks to see if same thread -- doesn't help
 	if currentThread.getPriority() == 1
 		tempThread = one.Remove()
 		one.AddToFront(tempThread)
@@ -256,7 +257,8 @@ code Thread
 	endIf
 	if(tempThread != currentThread) 
 	      currentThread.Yield ()
-	endIf
+	endIf*/
+	currentThread.Yield()
       endIf
       currentInterruptStatus = ENABLED
     endFunction
