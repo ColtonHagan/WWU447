@@ -26,11 +26,11 @@ code Thread
       mainThread.status = RUNNING
       idleThread = new Thread
       idleThread.Init ("idle-thread")
-      idleThread.setPriority(1)
-      idleThread.setPriority(2)
-      idleThread.setPriority(3)
-      idleThread.setPriority(4)
-      idleThread.setPriority(5)
+      --idleThread.setPriority(1)
+      --idleThread.setPriority(2)
+      --idleThread.setPriority(3)
+      --idleThread.setPriority(4)
+      --idleThread.setPriority(5)
       idleThread.Fork (IdleFunction, 0)
       currentThread = & mainThread
       currentInterruptStatus = ENABLED
@@ -48,12 +48,11 @@ code Thread
     -- will execute the "wait" instruction.  The "wait" instruction will enable
     -- interrupts and halt CPU execution until the next interrupt arrives.
     --
-      -- temp
       var junk: int
-      print("----> idle function is run \n")
+      --temp print("----> idle function is run \n")
       while true
         junk = SetInterruptsTo (DISABLED)
-        if (highestPrioThread() == null)
+        if (one.IsEmpty() && two.IsEmpty() && three.IsEmpty() && four.IsEmpty() && five.IsEmpty())
           Wait ()
         else
           currentThread.Yield()
@@ -282,7 +281,6 @@ function highestPrioInt () returns int
 	elseIf !five.IsEmpty()
 		return 5
 	endIf
-	PrintReadyList ()
 	return -1
 endFunction
 ------------------------------------------------------------------------------------------
@@ -292,6 +290,7 @@ function highestPrioThread() returns ptr to Thread
 	print("highest prio int is")
 	printInt(prioInt)
 	print("\n")
+	PrintReadyList()
 	if prioInt == 1
 		return one.Remove()
 	elseIf prioInt == 2

@@ -88,18 +88,18 @@ code Main
 
 	PrintReadyList()
 
-      e2Thread.Fork (PriorityThreadFunction, 50)
-      a2Thread.Fork (PriorityThreadFunction, 50)
-      c2Thread.Fork (PriorityThreadFunction, 50)
-      a1Thread.Fork (PriorityThreadFunction, 50)
-      c1Thread.Fork (PriorityThreadFunction, 50)
-      b1Thread.Fork (PriorityThreadFunction, 50)
-      d2Thread.Fork (PriorityThreadFunction, 50)
-      e1Thread.Fork (PriorityThreadFunction, 50)
-      b2Thread.Fork (PriorityThreadFunction, 50)
-      d1Thread.Fork (PriorityThreadFunction, 50)
+      e2Thread.Fork (PriorityThreadFunction, 5)
+      a2Thread.Fork (PriorityThreadFunction, 5)
+      c2Thread.Fork (PriorityThreadFunction, 5)
+      a1Thread.Fork (PriorityThreadFunction, 5)
+      c1Thread.Fork (PriorityThreadFunction, 5)
+      b1Thread.Fork (PriorityThreadFunction, 5)
+      d2Thread.Fork (PriorityThreadFunction, 5)
+      e1Thread.Fork (PriorityThreadFunction, 5)
+      b2Thread.Fork (PriorityThreadFunction, 5)
+      d1Thread.Fork (PriorityThreadFunction, 5)
 
-      PriorityThreadFunction (50)                -- The main thread will loop 50 times
+      PriorityThreadFunction (5)                -- The main thread will loop 50 times
 
     endFunction
 
