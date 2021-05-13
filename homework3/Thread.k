@@ -97,7 +97,11 @@ code Thread
       oldStatus = SetInterruptsTo (DISABLED)
         print ("Here is the ready list:\n")
 	--Question: do you want to print every readylist? Just the current one?
-        readyList.ApplyToEach (ThreadPrint)
+        one.ApplyToEach (ThreadPrint)
+	two.ApplyToEach (ThreadPrint)
+	three.ApplyToEach (ThreadPrint)
+	four.ApplyToEach (ThreadPrint)
+	five.ApplyToEach (ThreadPrint)
       oldStatus = SetInterruptsTo (oldStatus)
     endFunction
 
@@ -206,7 +210,6 @@ code Thread
     -- call "Yield" explicitly, or until they call "Sleep".)
     --
       currentInterruptStatus = DISABLED
-      --printChar ('_')
       -- Need to implement aging
       if(highestPrioInt() >= currentThread.getPriority())
 	currentThread.Yield ()
@@ -272,18 +275,7 @@ endFunction
 function highestPrioThread() returns ptr to Thread
 	var prioInt : int
 	prioInt = highestPrioInt()
-	if prioInt == 1
-		return one.Remove()
-	elseIf prioInt == 2
-		return two.Remove()
-	elseIf prioInt == 3
-		return three.Remove()
-	elseIf prioInt == 4
-		return four.Remove()
-	elseIf prioInt == 5
-		return five.Remove()
-	endIf
-	return null 
+	return intToQ(prioInt).Remove()
 endFunction
 ----------------------------------------------------------------------------------------
 function intToQ(prio:int) returns List [Thread]
@@ -296,7 +288,7 @@ function intToQ(prio:int) returns List [Thread]
 	elseIf(prio == 4)
 		return four
 	endIf
-	return five
+		return five
 endFunction
 -----------------------------  Thread  ---------------------------------
   behavior Thread
@@ -441,10 +433,12 @@ endFunction
               oldStatus: int
           oldStatus = SetInterruptsTo (DISABLED)
           print ("  Thread \"")
-          print (name)
           print ("\"    (addr of Thread object: ")
           printHex (self asInteger)
           print (")\n")
+	  print ("Priority: ")
+	  printInt(priority)
+	  print ("\n")
           print ("    machine state:\n")
           for i = 0 to 12
             print ("      r")
@@ -482,17 +476,7 @@ endFunction
   
   method setPriority(prio: int)
 	priority = prio
-	if prio == 1
-		one.AddToEnd(self)
-	elseIf prio == 2
-		two.AddToEnd(self)
-	elseIf prio == 3
-		three.AddToEnd(self)
-	elseIf prio == 4
-		four.AddToEnd(self)
-	elseIf prio == 5
-		five.AddToEnd(self)
-	endIf
+	intToQ(prio).AddToEnd(self)
   endMethod
 -------------------------------------------------
   method getPriority() returns int
