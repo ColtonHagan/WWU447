@@ -22,9 +22,11 @@ code Thread
       threadsToBeDestroyed = new List [Thread]
       mainThread = new Thread
       mainThread.Init ("main-thread")
+      mainThread.setPriority(3)
       mainThread.status = RUNNING
       idleThread = new Thread
       idleThread.Init ("idle-thread")
+      idleThread.setPriority(3)
       idleThread.Fork (IdleFunction, 0)
       currentThread = & mainThread
       currentInterruptStatus = ENABLED
@@ -42,7 +44,9 @@ code Thread
     -- will execute the "wait" instruction.  The "wait" instruction will enable
     -- interrupts and halt CPU execution until the next interrupt arrives.
     --
+      -- temp
       var junk: int
+      print("----> idle function is run \n")
       while true
         junk = SetInterruptsTo (DISABLED)
         if (highestPrioThread() == null)
@@ -95,11 +99,16 @@ code Thread
     --
     var oldStatus: int
       oldStatus = SetInterruptsTo (DISABLED)
-        print ("Here is the ready list:\n")
+        print ("Here is the priority Queues:\n")
+	print ("ONE : \n")
         one.ApplyToEach (ThreadPrint)
+	print ("TWO : \n")
 	two.ApplyToEach (ThreadPrint)
+	print ("THREE : \n")
 	three.ApplyToEach (ThreadPrint)
+	print("FOUR : \n")
 	four.ApplyToEach (ThreadPrint)
+	print("FIVE : \n")
 	five.ApplyToEach (ThreadPrint)
       oldStatus = SetInterruptsTo (oldStatus)
     endFunction
@@ -269,6 +278,7 @@ function highestPrioInt () returns int
 	elseIf !five.IsEmpty()
 		return 5
 	endIf
+	--PrintReadyList ()
 	return -1
 endFunction
 ------------------------------------------------------------------------------------------
@@ -282,6 +292,9 @@ function highestPrioThread() returns ptr to Thread
 endFunction
 ----------------------------------------------------------------------------------------
 function intToQ(prio:int) returns List [Thread]
+	print("intToQ ")
+	printInt(prio)
+	print("\n")
 	if(prio == 1)
 		return one
 	elseIf(prio == 2)
@@ -311,7 +324,9 @@ endFunction
           systemStack [SYSTEM_STACK_SIZE-1] = STACK_SENTINEL
           stackTop = & (systemStack[SYSTEM_STACK_SIZE-1])
           regs = new array of int { 13 of 0 }
+	  --setPriority(3)
 	  --priority = 3
+	  --three.addToEnd()
 	  time = 0
         endMethod
 
@@ -407,8 +422,9 @@ endFunction
           status = BLOCKED
           nextTh = highestPrioThread ()
           if nextTh == null
+	    PrintReadyList ()
             FatalError ("Ready list should always contain the idle thread")
-          endIf
+	  endIf
           Run (nextTh)
         endMethod
 
@@ -481,8 +497,10 @@ endFunction
   method setPriority(prio: int)
 	priority = prio
 	intToQ(prio).AddToEnd(self)
-	print("Thread add to Q")
+	print("Thread add to Q at prio = ")
 	printInt(prio)
+	print(" priority = ")
+	printInt(priority)
 	print("\n")
   endMethod
 -------------------------------------------------
