@@ -215,9 +215,9 @@ _Label_9:
 	.import	_CheckVersion_P_List_
 	cmp	r1,0
 	bne	_Label_10
-! Make sure _P_Thread_ has hash value 0x8f56e8c8 (decimal -1890129720)
+! Make sure _P_Thread_ has hash value 0xe62f4316 (decimal -433110250)
 	set	_packageName,r2
-	set	0x8f56e8c8,r3
+	set	0xe62f4316,r3
 	call	_CheckVersion_P_Thread_
 	.import	_CheckVersion_P_Thread_
 	cmp	r1,0
@@ -706,7 +706,7 @@ _Label_41:
 	cmp	r2,0
 	be	 _runtimeErrorUninitializedObject
 	store	r1,[r15]
-	add	r2,24,r2
+	add	r2,28,r2
 	call	r2
 ! END IF...
 _Label_42:
@@ -995,7 +995,7 @@ _Label_59:
 	cmp	r2,0
 	be	 _runtimeErrorUninitializedObject
 	store	r1,[r15]
-	add	r2,24,r2
+	add	r2,28,r2
 	call	r2
 ! END IF...
 _Label_63:
@@ -1578,7 +1578,7 @@ _Label_102:
 	cmp	r2,0
 	be	 _runtimeErrorUninitializedObject
 	store	r1,[r15]
-	add	r2,24,r2
+	add	r2,28,r2
 	call	r2
 ! SEND STATEMENT...
 	mov	199,r13		! source line 199

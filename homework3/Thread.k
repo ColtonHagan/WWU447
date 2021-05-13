@@ -292,7 +292,18 @@ function highestPrioThread() returns ptr to Thread
 	print("highest prio int is")
 	printInt(prioInt)
 	print("\n")
-	return intToQ(prioInt).Remove()
+	if prioInt == 1
+		return one.Remove()
+	elseIf prioInt == 2
+		return two.Remove()
+	elseIf prioInt == 3
+		return three.Remove()
+	elseIf prioInt == 4
+		return four.Remove()
+	elseIf prioInt == 5
+		return five.Remove()
+	endIf
+	return null
 endFunction
 ----------------------------------------------------------------------------------------
 function intToQ(prio:int) returns List [Thread]
@@ -339,6 +350,20 @@ endFunction
 	  time = 0
         endMethod
 
+     method assignQ(prio:int)
+        if priority == 1
+                one.AddToEnd(self)
+        elseIf priority == 2
+                two.AddToEnd(self)
+        elseIf priority == 3
+                three.AddToEnd(self)
+        elseIf priority == 4
+                four.AddToEnd(self)
+        elseIf priority == 5
+                five.AddToEnd(self)
+	endIf
+    endMethod
+
       ----------  Thread . Fork  ----------
 
       method Fork (fun: ptr to function (int), arg: int)
@@ -359,7 +384,17 @@ endFunction
           stackTop = stackTop - 4
           *(stackTop asPtrTo int) = ThreadStartUp asInteger
           status = READY
-	  intToQ(priority).AddToEnd(self)
+	  if priority == 1
+                one.AddToEnd(self)
+          elseIf priority == 2
+                two.AddToEnd(self)
+          elseIf priority == 3
+                three.AddToEnd(self)
+          elseIf priority == 4
+                four.AddToEnd(self)
+          elseIf priority == 5
+                five.AddToEnd(self)
+          endIf
           junk = SetInterruptsTo (oldIntStat)
         endMethod
 
@@ -398,7 +433,17 @@ endFunction
             endIf
             status = READY
             --readyList.AddToEnd (self)
-	    intToQ(priority).AddToEnd(self)
+	    if priority == 1
+                one.AddToEnd(self)
+            elseIf priority == 2
+                two.AddToEnd(self)
+            elseIf priority == 3
+                three.AddToEnd(self)
+            elseIf priority == 4
+                four.AddToEnd(self)
+            elseIf priority == 5
+                five.AddToEnd(self)
+            endIf
             Run (nextTh)
           endIf
           junk = SetInterruptsTo (oldIntStat)
@@ -505,8 +550,17 @@ endFunction
   
   method setPriority(prio: int)
 	priority = prio
-	intToQ(prio).AddToEnd(self)
-	--one.AddToEnd(self)
+	if priority == 1
+                one.AddToEnd(self)
+        elseIf priority == 2
+                two.AddToEnd(self)
+        elseIf priority == 3
+                three.AddToEnd(self)
+        elseIf priority == 4
+                four.AddToEnd(self)
+        elseIf priority == 5
+                five.AddToEnd(self)
+        endIf
 	print("Thread add to Q at prio = ")
 	printInt(prio)
 	print(" priority = ")
@@ -517,5 +571,7 @@ endFunction
   method getPriority() returns int
 	return priority
   endMethod
+-------------------------------------------------
+
   endBehavior
 endCode

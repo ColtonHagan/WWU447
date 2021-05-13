@@ -55,6 +55,7 @@ header Thread
       priority: int
     methods
       Init (n: ptr to array of char)
+      assignQ (prio:int)
       Fork (fun: ptr to function (int), arg: int)
       setPriority(prio: int)
       getPriority() returns int
