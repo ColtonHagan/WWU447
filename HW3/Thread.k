@@ -1,7 +1,7 @@
 code Thread
 
   -- Harry Porter  --  January 10, 2005
-
+  -- Edited by Colton Hagan
 -----------------------------  InitializeScheduler  ---------------------------------
 
   function InitializeScheduler ()
@@ -529,7 +529,7 @@ code Thread
           endSwitch
           oldStatus = SetInterruptsTo (oldStatus)
       endMethod
-----------------------------------------------
+-----------------------------  setPriority  ---------------------------------
       method setPriority(givenPrio:int)
 	prio = givenPrio
 	if prio == 1
@@ -544,6 +544,7 @@ code Thread
                 five.AddToEnd(self)
 	endIf
      endMethod
+-----------------------------  getPriority  ---------------------------------
      method getPriority() returns int
 	return prio
      endMethod
