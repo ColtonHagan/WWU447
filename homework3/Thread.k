@@ -96,7 +96,6 @@ code Thread
     var oldStatus: int
       oldStatus = SetInterruptsTo (DISABLED)
         print ("Here is the ready list:\n")
-	--Question: do you want to print every readylist? Just the current one?
         one.ApplyToEach (ThreadPrint)
 	two.ApplyToEach (ThreadPrint)
 	three.ApplyToEach (ThreadPrint)
@@ -214,6 +213,7 @@ code Thread
       if(highestPrioInt() >= currentThread.getPriority())
 	currentThread.Yield ()
       endIf
+	-- Run(currentThread)
       currentInterruptStatus = ENABLED
     endFunction
 
@@ -332,7 +332,7 @@ endFunction
           stackTop = stackTop - 4
           *(stackTop asPtrTo int) = ThreadStartUp asInteger
           status = READY
-          readyList.AddToEnd (self)
+	  intToQ(priority).AddToEnd(self)
           junk = SetInterruptsTo (oldIntStat)
         endMethod
 
@@ -361,7 +361,7 @@ endFunction
           -- print ("Yielding ")
           -- print (name)
           -- print ("\n")
-          nextTh = readyList.Remove ()
+          nextTh = highestPrioThread()
           if nextTh
             -- print ("About to run ")
             -- print (nextTh.name)
@@ -370,7 +370,8 @@ endFunction
               FatalError ("Status of current thread should be READY or RUNNING")
             endIf
             status = READY
-            readyList.AddToEnd (self)
+            --readyList.AddToEnd (self)
+	    intToQ(priority).AddToEnd(self)
             Run (nextTh)
           endIf
           junk = SetInterruptsTo (oldIntStat)
