@@ -258,15 +258,15 @@ code Thread
     endFunction
 --------------------------------------------------------------------------------------------
 function highestPrioInt () returns int
-	if one.IsEmpty()
+	if !one.IsEmpty()
 		return 1
-	elseIf two.IsEmpty()
+	elseIf !two.IsEmpty()
 		return 2
-	elseIf three.IsEmpty()
+	elseIf !three.IsEmpty()
 		return 3
-	elseIf four.IsEmpty()
+	elseIf !four.IsEmpty()
 		return 4
-	elseIf five.IsEmpty()
+	elseIf !five.IsEmpty()
 		return 5
 	endIf
 	return -1
@@ -275,6 +275,9 @@ endFunction
 function highestPrioThread() returns ptr to Thread
 	var prioInt : int
 	prioInt = highestPrioInt()
+	print("highest prio int is")
+	printInt(prioInt)
+	print("\n")
 	return intToQ(prioInt).Remove()
 endFunction
 ----------------------------------------------------------------------------------------
@@ -308,7 +311,7 @@ endFunction
           systemStack [SYSTEM_STACK_SIZE-1] = STACK_SENTINEL
           stackTop = & (systemStack[SYSTEM_STACK_SIZE-1])
           regs = new array of int { 13 of 0 }
-	  priority = 3
+	  --priority = 3
 	  time = 0
         endMethod
 
@@ -478,6 +481,9 @@ endFunction
   method setPriority(prio: int)
 	priority = prio
 	intToQ(prio).AddToEnd(self)
+	print("Thread add to Q")
+	printInt(prio)
+	print("\n")
   endMethod
 -------------------------------------------------
   method getPriority() returns int
