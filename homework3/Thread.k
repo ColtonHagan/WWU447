@@ -26,7 +26,11 @@ code Thread
       mainThread.status = RUNNING
       idleThread = new Thread
       idleThread.Init ("idle-thread")
+      idleThread.setPriority(1)
+      idleThread.setPriority(2)
       idleThread.setPriority(3)
+      idleThread.setPriority(4)
+      idleThread.setPriority(5)
       idleThread.Fork (IdleFunction, 0)
       currentThread = & mainThread
       currentInterruptStatus = ENABLED
@@ -278,7 +282,7 @@ function highestPrioInt () returns int
 	elseIf !five.IsEmpty()
 		return 5
 	endIf
-	--PrintReadyList ()
+	PrintReadyList ()
 	return -1
 endFunction
 ------------------------------------------------------------------------------------------
@@ -292,9 +296,10 @@ function highestPrioThread() returns ptr to Thread
 endFunction
 ----------------------------------------------------------------------------------------
 function intToQ(prio:int) returns List [Thread]
-	print("intToQ ")
-	printInt(prio)
-	print("\n")
+	--temp
+	--print("intToQ ")
+	--printInt(prio)
+	--print("\n")
 	if(prio == 1)
 		return one
 	elseIf(prio == 2)
@@ -303,8 +308,12 @@ function intToQ(prio:int) returns List [Thread]
 		return three
 	elseIf(prio == 4)
 		return four
-	endIf
+	elseIf(prio == 5)
 		return five
+	endIf
+	-- temp
+	print("ERRRRRRORRR: This should never happen!!")
+	return readyList
 endFunction
 -----------------------------  Thread  ---------------------------------
   behavior Thread
@@ -497,6 +506,7 @@ endFunction
   method setPriority(prio: int)
 	priority = prio
 	intToQ(prio).AddToEnd(self)
+	--one.AddToEnd(self)
 	print("Thread add to Q at prio = ")
 	printInt(prio)
 	print(" priority = ")

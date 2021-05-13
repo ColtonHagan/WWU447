@@ -86,6 +86,7 @@ code Main
       e2Thread.Init ("E2")   -- Initialize, giving thread a name
       e2Thread.setPriority(5)
 
+	PrintReadyList()
 
       e2Thread.Fork (PriorityThreadFunction, 50)
       a2Thread.Fork (PriorityThreadFunction, 50)
