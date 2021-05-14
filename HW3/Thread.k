@@ -48,9 +48,8 @@ code Thread
     -- will execute the "wait" instruction.  The "wait" instruction will enable
     -- interrupts and halt CPU execution until the next interrupt arrives.
     --
-      var junk: int
-      --temp
-      print("Idle function is being entered")
+      var 
+	junk: int
       while true
         junk = SetInterruptsTo (DISABLED)
         if (one.IsEmpty() && two.IsEmpty() && three.IsEmpty() && four.IsEmpty() && five.IsEmpty())
@@ -236,28 +235,11 @@ code Thread
         highestPrio = 4
       elseIf !five.IsEmpty()
         highestPrio = 5
+      else
+	print("Error should not happen - timer")
       endIf
       if(highestPrio <= currentThread.getPriority())
-	/* --Checks to see if same thread -- doesn't help
-	if currentThread.getPriority() == 1
-		tempThread = one.Remove()
-		one.AddToFront(tempThread)
-	elseIf currentThread.getPriority() == 2
-		tempThread = two.Remove()
-                two.AddToFront(tempThread)
-	elseIf currentThread.getPriority() == 3
-		tempThread = three.Remove()
-                three.AddToFront(tempThread)
-	elseIf currentThread.getPriority() == 4
-		tempThread = four.Remove()
-                four.AddToFront(tempThread)
-	elseIf currentThread.getPriority() == 5
-		tempThread = five.Remove()
-                five.AddToFront(tempThread)
-	endIf
-	if(tempThread != currentThread) 
-	      currentThread.Yield ()
-	endIf*/
+	--Checks to see if same thread but doesn't help
 	currentThread.Yield()
       endIf
       currentInterruptStatus = ENABLED
@@ -396,6 +378,8 @@ code Thread
 		nextTh = four.Remove()
 	  elseIf !five.IsEmpty()
 		nextTh = five.Remove()
+	  else
+		print("Error yield 1")
 	  endIf
           if nextTh
             --print ("About to run ")
@@ -416,6 +400,8 @@ code Thread
                 four.AddToEnd(self)
             elseIf prio == 5
                 five.AddToEnd(self)
+	    else
+		print("error yeild 2")
             endIf
 	  Run (nextTh)
           endIf
@@ -458,6 +444,8 @@ code Thread
                 nextTh = four.Remove()
           elseIf !five.IsEmpty()
                 nextTh = five.Remove()
+	  else
+		print("error sleep")
           endIf
           if nextTh == null
             FatalError ("Ready list should always contain the idle thread")
@@ -532,7 +520,7 @@ code Thread
 -----------------------------  setPriority  ---------------------------------
       method setPriority(givenPrio:int)
 	prio = givenPrio
-	if prio == 1
+	/*if prio == 1
 		one.AddToEnd(self)
 	elseIf prio == 2
 		two.AddToEnd(self)
@@ -542,11 +530,17 @@ code Thread
                 four.AddToEnd(self)
 	elseIf prio == 5
                 five.AddToEnd(self)
-	endIf
+	else
+		print("error set prio")
+	endIf*/
      endMethod
 -----------------------------  getPriority  ---------------------------------
      method getPriority() returns int
 	return prio
      endMethod
+----------------------------- AgeThread -------------------------------------------
+	method ageThread() 
+		time = time + 1
+	endMethod
   endBehavior
 endCode

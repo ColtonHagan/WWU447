@@ -50,6 +50,7 @@ header Thread
       initialArgument: int                      -- The argument to that function
       systemStack: array [SYSTEM_STACK_SIZE] of int
       prio: int
+      time: int
     methods
       Init (n: ptr to array of char)
       Fork (fun: ptr to function (int), arg: int)
@@ -59,6 +60,7 @@ header Thread
       Print ()
       setPriority (givenPrio: int)
       getPriority () returns int
+      ageThread()
   endClass
 
 endHeader
