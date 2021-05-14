@@ -212,9 +212,9 @@ _Label_9:
 	.import	_CheckVersion_P_List_
 	cmp	r1,0
 	bne	_Label_10
-! Make sure _P_Thread_ has hash value 0xc9cf64b9 (decimal -909155143)
+! Make sure _P_Thread_ has hash value 0xd499e704 (decimal -728111356)
 	set	_packageName,r2
-	set	0xc9cf64b9,r3
+	set	0xd499e704,r3
 	call	_CheckVersion_P_Thread_
 	.import	_CheckVersion_P_Thread_
 	cmp	r1,0

@@ -223,7 +223,6 @@ code Thread
     --
       var 
 	highestPrio:int
-	--tempThread: ptr to Thread
       currentInterruptStatus = DISABLED
       if !one.IsEmpty()
 	highestPrio = 1
@@ -238,12 +237,89 @@ code Thread
       else
 	print("Error should not happen - timer")
       endIf
+      one.ApplyToEach(ageThread)
+      two.ApplyToEach(ageThread)
+      three.ApplyToEach(ageThread)
+      four.ApplyToEach(ageThread)
+      five.ApplyToEach(ageThread)
+      promoteThreads()
       if(highestPrio <= currentThread.getPriority())
-	--Checks to see if same thread but doesn't help
 	currentThread.Yield()
       endIf
       currentInterruptStatus = ENABLED
     endFunction
+-----------------------------  ageThread  ---------------------------------
+  function ageThread (t: ptr to Thread)
+	t.time = t.time + 1
+  endFunction
+-----------------------------  promoteThreads ---------------------------------
+  function promoteThreads()
+	var checkThread: ptr to Thread
+        while(true)
+	   checkThread = two.Remove()
+	   if(checkThread == null) 
+		break
+	   endIf
+	   if(checkThread.time >= 5)
+		checkThread.time = 0
+		one.AddToEnd(checkThread)
+		checkThread.currPrio = checkThread.currPrio + 1
+		print(checkThread.name)
+		print(" Promoted from two to one!\n")	
+	   else
+		two.AddToFront(checkThread)
+		break
+	   endIf
+	endWhile
+	while(true)
+           checkThread = three.Remove()
+           if(checkThread == null)
+                break
+           endIf
+           if(checkThread.time >= 5)
+                checkThread.time = 0
+                two.AddToEnd(checkThread)
+		checkThread.currPrio = checkThread.currPrio + 1
+		print(checkThread.name)
+                print(" Promoted from three to two!\n")
+           else
+                three.AddToFront(checkThread)
+		break
+           endIf
+        endWhile
+	while(true)
+           checkThread = four.Remove()
+           if(checkThread == null)
+                break
+           endIf
+           if(checkThread.time >= 5)
+                checkThread.time = 0
+                three.AddToEnd(checkThread)
+		checkThread.currPrio = checkThread.currPrio + 1
+		print(checkThread.name)
+                print(" Promoted from four to three!\n")
+           else
+                four.AddToFront(checkThread)
+		break
+           endIf
+        endWhile
+	while(true)
+           checkThread = five.Remove()
+           if(checkThread == null)
+                break
+           endIf
+           if(checkThread.time >= 5)
+                checkThread.time = 0
+                four.AddToEnd(checkThread)
+		checkThread.currPrio = checkThread.currPrio + 1
+		print(checkThread.name)
+                print(" Promoted from five to four!\n")
+           else
+                five.AddToFront(checkThread)
+		break
+           endIf
+        endWhile
+  endFunction
 
 -----------------------------  ThreadPrint  ---------------------------------
 
@@ -305,6 +381,8 @@ code Thread
           stackTop = & (systemStack[SYSTEM_STACK_SIZE-1])
           regs = new array of int { 13 of 0 }
 	  prio = 0
+	  time = 0
+	  currPrio = 0
         endMethod
 
       ----------  Thread . Fork  ----------
@@ -401,8 +479,16 @@ code Thread
             elseIf prio == 5
                 five.AddToEnd(self)
 	    else
-		print("error yeild 2")
+		print("Error yeild 2")
             endIf
+	  time = 0
+	  if(prio != currPrio)
+	  	print(name)
+	  	print(" Demoted back to ")
+	  	printInt(prio)
+	  	print("\n")
+		currPrio = prio
+	  endIf
 	  Run (nextTh)
           endIf
           junk = SetInterruptsTo (oldIntStat)
@@ -520,6 +606,7 @@ code Thread
 -----------------------------  setPriority  ---------------------------------
       method setPriority(givenPrio:int)
 	prio = givenPrio
+	currPrio = prio
 	/*if prio == 1
 		one.AddToEnd(self)
 	elseIf prio == 2
@@ -538,9 +625,10 @@ code Thread
      method getPriority() returns int
 	return prio
      endMethod
------------------------------ AgeThread -------------------------------------------
-	method ageThread() 
-		time = time + 1
-	endMethod
+----------------------------- getTime ---------------------------------------
+	--temp
+     method getTime() returns int
+	return time
+     endMethod
   endBehavior
 endCode
