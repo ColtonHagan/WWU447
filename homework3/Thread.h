@@ -17,9 +17,7 @@ header Thread
     FatalError (errorMessage: ptr to array of char)
     SetInterruptsTo (newStatus: int) returns int
     TimerInterruptHandler ()
-    highestPrioInt () returns int
-    highestPrioThread () returns ptr to Thread
-    intToQ (prio:int) returns List [Thread]
+
     external Switch (prevThread, nextThread: ptr to Thread)
     external ThreadStartUp ()
 
@@ -51,18 +49,19 @@ header Thread
       initialFunction: ptr to function (int)    -- The thread's "main" function
       initialArgument: int                      -- The argument to that function
       systemStack: array [SYSTEM_STACK_SIZE] of int
+      prio: int
+      currPrio: int
       time: int
-      priority: int
     methods
       Init (n: ptr to array of char)
-      assignQ (prio:int)
       Fork (fun: ptr to function (int), arg: int)
-      setPriority(prio: int)
-      getPriority() returns int
       Yield ()
       Sleep ()
       CheckOverflow ()
       Print ()
+      setPriority (givenPrio: int)
+      getPriority () returns int
+      getTime () returns int
   endClass
 
 endHeader

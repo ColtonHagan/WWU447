@@ -86,8 +86,6 @@ code Main
       e2Thread.Init ("E2")   -- Initialize, giving thread a name
       e2Thread.setPriority(5)
 
-	PrintReadyList()
-
       e2Thread.Fork (PriorityThreadFunction, 50)
       a2Thread.Fork (PriorityThreadFunction, 50)
       c2Thread.Fork (PriorityThreadFunction, 50)
@@ -100,7 +98,6 @@ code Main
       d1Thread.Fork (PriorityThreadFunction, 50)
 
       PriorityThreadFunction (50)                -- The main thread will loop 50 times
-
     endFunction
 
   function PriorityThreadFunction (cnt: int)

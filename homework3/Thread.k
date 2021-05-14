@@ -1,7 +1,7 @@
 code Thread
 
   -- Harry Porter  --  January 10, 2005
-
+  -- Edited by Colton Hagan
 -----------------------------  InitializeScheduler  ---------------------------------
 
   function InitializeScheduler ()
@@ -22,8 +22,8 @@ code Thread
       threadsToBeDestroyed = new List [Thread]
       mainThread = new Thread
       mainThread.Init ("main-thread")
-      mainThread.setPriority(1)
       mainThread.status = RUNNING
+      mainThread.setPriority(1)
       idleThread = new Thread
       idleThread.Init ("idle-thread")
       --idleThread.setPriority(1)
@@ -32,7 +32,7 @@ code Thread
       --idleThread.setPriority(4)
       idleThread.setPriority(5)
       idleThread.Fork (IdleFunction, 0)
-      currentThread = & mainThread
+      currentThread = &mainThread
       currentInterruptStatus = ENABLED
       Seti ()
     endFunction
@@ -48,14 +48,14 @@ code Thread
     -- will execute the "wait" instruction.  The "wait" instruction will enable
     -- interrupts and halt CPU execution until the next interrupt arrives.
     --
-      var junk: int
-      print("----> idle function is run \n")
+      var 
+	junk: int
       while true
         junk = SetInterruptsTo (DISABLED)
         if (one.IsEmpty() && two.IsEmpty() && three.IsEmpty() && four.IsEmpty() && five.IsEmpty())
           Wait ()
         else
-          currentThread.Yield()
+          currentThread.Yield ()
         endIf
       endWhile
     endFunction
@@ -116,6 +116,7 @@ code Thread
       oldStatus = SetInterruptsTo (oldStatus)
     endFunction
 
+
 -----------------------------  ThreadStartMain  ---------------------------------
 
   function ThreadStartMain ()
@@ -129,7 +130,7 @@ code Thread
       var
         junk: int
         mainFun: ptr to function (int)
-      -- print ("ThreadStartMain...\n")
+      --print ("ThreadStartMain...\n")
       junk = SetInterruptsTo (ENABLED)
       mainFun = currentThread.initialFunction
       mainFun (currentThread.initialArgument)
@@ -151,9 +152,9 @@ code Thread
     --
       var junk: int
       junk = SetInterruptsTo (DISABLED)
-      -- print ("Finishing ")
-      -- print (currentThread.name)
-      -- print ("\n")
+      --print ("Finishing ")
+      --print (currentThread.name)
+      --print ("\n")
       threadsToBeDestroyed.AddToEnd (currentThread)
       currentThread.Sleep ()
       -- Execution will never reach the next instruction
@@ -220,14 +221,105 @@ code Thread
     -- to "Yield" in the code below.  Threads will then execute until they
     -- call "Yield" explicitly, or until they call "Sleep".)
     --
+      var 
+	highestPrio:int
       currentInterruptStatus = DISABLED
-      -- Need to implement aging
-      if(highestPrioInt() >= currentThread.getPriority())
-	currentThread.Yield ()
+      if !one.IsEmpty()
+	highestPrio = 1
+      elseIf !two.IsEmpty()
+        highestPrio = 2
+      elseIf !three.IsEmpty()
+        highestPrio = 3
+      elseIf !four.IsEmpty()
+        highestPrio = 4
+      elseIf !five.IsEmpty()
+        highestPrio = 5
+      else
+	print("Error should not happen - timer")
       endIf
-	-- Run(currentThread)
+      one.ApplyToEach(ageThread)
+      two.ApplyToEach(ageThread)
+      three.ApplyToEach(ageThread)
+      four.ApplyToEach(ageThread)
+      five.ApplyToEach(ageThread)
+      promoteThreads()
+      if(highestPrio <= currentThread.getPriority())
+	currentThread.Yield()
+      endIf
       currentInterruptStatus = ENABLED
     endFunction
+-----------------------------  ageThread  ---------------------------------
+  function ageThread (t: ptr to Thread)
+	t.time = t.time + 1
+  endFunction
+-----------------------------  promoteThreads ---------------------------------
+  function promoteThreads()
+	var checkThread: ptr to Thread
+        while(true)
+	   checkThread = two.Remove()
+	   if(checkThread == null) 
+		break
+	   endIf
+	   if(checkThread.time >= 5)
+		checkThread.time = 0
+		one.AddToEnd(checkThread)
+		checkThread.currPrio = checkThread.currPrio + 1
+		print(checkThread.name)
+		print(" Promoted from two to one!\n")	
+	   else
+		two.AddToFront(checkThread)
+		break
+	   endIf
+	endWhile
+	while(true)
+           checkThread = three.Remove()
+           if(checkThread == null)
+                break
+           endIf
+           if(checkThread.time >= 5)
+                checkThread.time = 0
+                two.AddToEnd(checkThread)
+		checkThread.currPrio = checkThread.currPrio + 1
+		print(checkThread.name)
+                print(" Promoted from three to two!\n")
+           else
+                three.AddToFront(checkThread)
+		break
+           endIf
+        endWhile
+	while(true)
+           checkThread = four.Remove()
+           if(checkThread == null)
+                break
+           endIf
+           if(checkThread.time >= 5)
+                checkThread.time = 0
+                three.AddToEnd(checkThread)
+		checkThread.currPrio = checkThread.currPrio + 1
+		print(checkThread.name)
+                print(" Promoted from four to three!\n")
+           else
+                four.AddToFront(checkThread)
+		break
+           endIf
+        endWhile
+	while(true)
+           checkThread = five.Remove()
+           if(checkThread == null)
+                break
+           endIf
+           if(checkThread.time >= 5)
+                checkThread.time = 0
+                four.AddToEnd(checkThread)
+		checkThread.currPrio = checkThread.currPrio + 1
+		print(checkThread.name)
+                print(" Promoted from five to four!\n")
+           else
+                five.AddToFront(checkThread)
+		break
+           endIf
+        endWhile
+  endFunction
 
 -----------------------------  ThreadPrint  ---------------------------------
 
@@ -268,71 +360,9 @@ code Thread
       -- t.Print ()
       oldStatus = SetInterruptsTo (oldStatus)
     endFunction
---------------------------------------------------------------------------------------------
-function highestPrioInt () returns int
-	print("highest prio thread is ")
-	if !one.IsEmpty()
-		print("1\n")
-		return 1
-	elseIf !two.IsEmpty()
-		print("2\n")
-		return 2
-	elseIf !three.IsEmpty()
-		print("3\n")
-		return 3
-	elseIf !four.IsEmpty()
-		print("4\n")
-		return 4
-	elseIf !five.IsEmpty()
-		print("5\n")
-		return 5
-	endIf
-	return -1
-endFunction
-------------------------------------------------------------------------------------------
-function highestPrioThread() returns ptr to Thread
-	var prioInt : int
-	prioInt = highestPrioInt()
-	print("Removing thread from ")
-	printInt(prioInt)
-	print("\n")
-	--PrintReadyList()
-	if prioInt == 1
-		return one.Remove()
-	elseIf prioInt == 2
-		return two.Remove()
-	elseIf prioInt == 3
-		--PrintReadyList()
-		return three.Remove()
-	elseIf prioInt == 4
-		return four.Remove()
-	elseIf prioInt == 5
-		return five.Remove()
-	endIf
-	return null
-endFunction
-----------------------------------------------------------------------------------------
-function intToQ(prio:int) returns List [Thread]
-	--temp
-	--print("intToQ ")
-	--printInt(prio)
-	--print("\n")
-	if(prio == 1)
-		return one
-	elseIf(prio == 2)
-		return two
-	elseIf(prio == 3)
-		return three
-	elseIf(prio == 4)
-		return four
-	elseIf(prio == 5)
-		return five
-	endIf
-	-- temp
-	print("ERRRRRRORRR: This should never happen!!")
-	return readyList
-endFunction
+
 -----------------------------  Thread  ---------------------------------
+
   behavior Thread
 
       ----------  Thread . Init  ----------
@@ -350,25 +380,10 @@ endFunction
           systemStack [SYSTEM_STACK_SIZE-1] = STACK_SENTINEL
           stackTop = & (systemStack[SYSTEM_STACK_SIZE-1])
           regs = new array of int { 13 of 0 }
-	  --setPriority(3)
-	  --priority = 3
-	  --three.addToEnd()
+	  prio = 0
 	  time = 0
+	  currPrio = 0
         endMethod
-
-     method assignQ(prio:int)
-        if priority == 1
-                one.AddToEnd(self)
-        elseIf priority == 2
-                two.AddToEnd(self)
-        elseIf priority == 3
-                three.AddToEnd(self)
-        elseIf priority == 4
-                four.AddToEnd(self)
-        elseIf priority == 5
-                five.AddToEnd(self)
-	endIf
-    endMethod
 
       ----------  Thread . Fork  ----------
 
@@ -384,23 +399,24 @@ endFunction
           var
             oldIntStat, junk: int
           oldIntStat = SetInterruptsTo (DISABLED)
-          print ("Forking thread...\n")
+          -- print ("Forking thread...\n")
           initialFunction = fun
           initialArgument = arg
           stackTop = stackTop - 4
           *(stackTop asPtrTo int) = ThreadStartUp asInteger
           status = READY
-	  if priority == 1
-                one.AddToEnd(self)
-          elseIf priority == 2
-                two.AddToEnd(self)
-          elseIf priority == 3
+          --readyList.AddToEnd (self)
+	  if prio == 1
+		one.AddToEnd(self)
+	  elseIf prio == 2
+		two.AddToEnd(self)
+	  elseIf prio == 3
                 three.AddToEnd(self)
-          elseIf priority == 4
+	  elseIf prio == 4
                 four.AddToEnd(self)
-          elseIf priority == 5
+	  elseIf prio == 5
                 five.AddToEnd(self)
-          endIf
+	  endIf
           junk = SetInterruptsTo (oldIntStat)
         endMethod
 
@@ -426,31 +442,54 @@ endFunction
                 FatalError ("In Yield, self != currentThread")
               endIf
           oldIntStat = SetInterruptsTo (DISABLED)
-          print ("Yielding ")
-          print (name)
-          print ("\n")
-          nextTh = highestPrioThread()
+          --print ("Yielding ")
+          --print (name)
+          --print ("\n")
+          --nextTh = readyList.Remove ()
+	  if !one.IsEmpty()
+		nextTh = one.Remove()
+	  elseIf !two.IsEmpty()
+		nextTh = two.Remove()
+	  elseIf !three.IsEmpty()
+	        nextTh = three.Remove()
+	  elseIf !four.IsEmpty()
+		nextTh = four.Remove()
+	  elseIf !five.IsEmpty()
+		nextTh = five.Remove()
+	  else
+		print("Error yield 1")
+	  endIf
           if nextTh
-            print ("About to run ")
-            print (nextTh.name)
-            print ("\n")
+            --print ("About to run ")
+            --print (nextTh.name)
+            --print ("\n")
             if status == BLOCKED
               FatalError ("Status of current thread should be READY or RUNNING")
             endIf
             status = READY
             --readyList.AddToEnd (self)
-	    if priority == 1
+            if prio == 1
                 one.AddToEnd(self)
-            elseIf priority == 2
+            elseIf prio == 2
                 two.AddToEnd(self)
-            elseIf priority == 3
+            elseIf prio == 3
                 three.AddToEnd(self)
-            elseIf priority == 4
+            elseIf prio == 4
                 four.AddToEnd(self)
-            elseIf priority == 5
+            elseIf prio == 5
                 five.AddToEnd(self)
+	    else
+		print("Error yeild 2")
             endIf
-            Run (nextTh)
+	  time = 0
+	  if(prio != currPrio)
+	  	print(name)
+	  	print(" Demoted back to ")
+	  	printInt(prio)
+	  	print("\n")
+		currPrio = prio
+	  endIf
+	  Run (nextTh)
           endIf
           junk = SetInterruptsTo (oldIntStat)
         endMethod
@@ -476,15 +515,27 @@ endFunction
               if self != currentThread
                 FatalError ("In Sleep, self != currentThread")
               endIf
-          print ("Sleeping ")
-          print (name)
-          print ("\n")
+          --print ("Sleeping ")
+          --print (name)
+          --print ("\n")
           status = BLOCKED
-          nextTh = highestPrioThread ()
+          --nextTh = readyList.Remove ()
+	  if !one.IsEmpty()
+                nextTh = one.Remove()
+          elseIf !two.IsEmpty()
+                nextTh = two.Remove()
+          elseIf !three.IsEmpty()
+                nextTh = three.Remove()
+          elseIf !four.IsEmpty()
+                nextTh = four.Remove()
+          elseIf !five.IsEmpty()
+                nextTh = five.Remove()
+	  else
+		print("error sleep")
+          endIf
           if nextTh == null
-	    PrintReadyList ()
             FatalError ("Ready list should always contain the idle thread")
-	  endIf
+          endIf
           Run (nextTh)
         endMethod
 
@@ -517,7 +568,7 @@ endFunction
           printHex (self asInteger)
           print (")\n")
 	  print ("Priority: ")
-	  printInt(priority)
+	  printInt(prio)
 	  print ("\n")
           print ("    machine state:\n")
           for i = 0 to 12
@@ -552,32 +603,32 @@ endFunction
           endSwitch
           oldStatus = SetInterruptsTo (oldStatus)
       endMethod
-  --------------------------------------------
-  
-  method setPriority(prio: int)
-	priority = prio
-	if priority == 1
-                one.AddToEnd(self)
-        elseIf priority == 2
-                two.AddToEnd(self)
-        elseIf priority == 3
+-----------------------------  setPriority  ---------------------------------
+      method setPriority(givenPrio:int)
+	prio = givenPrio
+	currPrio = prio
+	/*if prio == 1
+		one.AddToEnd(self)
+	elseIf prio == 2
+		two.AddToEnd(self)
+        elseIf prio == 3
                 three.AddToEnd(self)
-        elseIf priority == 4
+	elseIf prio == 4
                 four.AddToEnd(self)
-        elseIf priority == 5
+	elseIf prio == 5
                 five.AddToEnd(self)
-        endIf
-	print("Thread ")
-	print(name)
-	print(" added to Q at prio = ")
-	printInt(priority)
-	print("\n")
-  endMethod
--------------------------------------------------
-  method getPriority() returns int
-	return priority
-  endMethod
--------------------------------------------------
-
+	else
+		print("error set prio")
+	endIf*/
+     endMethod
+-----------------------------  getPriority  ---------------------------------
+     method getPriority() returns int
+	return prio
+     endMethod
+----------------------------- getTime ---------------------------------------
+	--temp
+     method getTime() returns int
+	return time
+     endMethod
   endBehavior
 endCode
