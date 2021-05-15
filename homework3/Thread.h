@@ -17,7 +17,8 @@ header Thread
     FatalError (errorMessage: ptr to array of char)
     SetInterruptsTo (newStatus: int) returns int
     TimerInterruptHandler ()
-
+    ageThread(thread: ptr to Thread)
+    promoteThreads()
     external Switch (prevThread, nextThread: ptr to Thread)
     external ThreadStartUp ()
 
@@ -61,7 +62,6 @@ header Thread
       Print ()
       setPriority (givenPrio: int)
       getPriority () returns int
-      getTime () returns int
   endClass
 
 endHeader

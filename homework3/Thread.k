@@ -1,7 +1,7 @@
 code Thread
-
   -- Harry Porter  --  January 10, 2005
-  -- Edited by Colton Hagan
+  -- Edited by Colton Hagan for homework3 for CS447 -- 5/14/21
+  -- Note: I apologize for your eyes ran out of time to make the code not ugly
 -----------------------------  InitializeScheduler  ---------------------------------
 
   function InitializeScheduler ()
@@ -26,10 +26,6 @@ code Thread
       mainThread.setPriority(1)
       idleThread = new Thread
       idleThread.Init ("idle-thread")
-      --idleThread.setPriority(1)
-      --idleThread.setPriority(2)
-      --idleThread.setPriority(3)
-      --idleThread.setPriority(4)
       idleThread.setPriority(5)
       idleThread.Fork (IdleFunction, 0)
       currentThread = &mainThread
@@ -234,10 +230,7 @@ code Thread
         highestPrio = 4
       elseIf !five.IsEmpty()
         highestPrio = 5
-      else
-	print("Error should not happen - timer")
       endIf
-      one.ApplyToEach(ageThread)
       two.ApplyToEach(ageThread)
       three.ApplyToEach(ageThread)
       four.ApplyToEach(ageThread)
@@ -249,10 +242,13 @@ code Thread
       currentInterruptStatus = ENABLED
     endFunction
 -----------------------------  ageThread  ---------------------------------
-  function ageThread (t: ptr to Thread)
-	t.time = t.time + 1
+  -- increases the time on a given thread
+  function ageThread (thread: ptr to Thread)
+	thread.time = thread.time + 1
   endFunction
 -----------------------------  promoteThreads ---------------------------------
+  -- Loops through each priority queue (excluding the first), checking to see which threads
+  -- if any should be promoted (time/age >= 5) and promotes them
   function promoteThreads()
 	var checkThread: ptr to Thread
         while(true)
@@ -263,9 +259,9 @@ code Thread
 	   if(checkThread.time >= 5)
 		checkThread.time = 0
 		one.AddToEnd(checkThread)
-		checkThread.currPrio = checkThread.currPrio + 1
+		checkThread.currPrio = checkThread.currPrio - 1
 		print(checkThread.name)
-		print(" Promoted from two to one!\n")	
+		print(" Promoted from 2 to 1!\n")	
 	   else
 		two.AddToFront(checkThread)
 		break
@@ -279,9 +275,9 @@ code Thread
            if(checkThread.time >= 5)
                 checkThread.time = 0
                 two.AddToEnd(checkThread)
-		checkThread.currPrio = checkThread.currPrio + 1
+		checkThread.currPrio = checkThread.currPrio - 1
 		print(checkThread.name)
-                print(" Promoted from three to two!\n")
+                print(" Promoted from 3 to 2!\n")
            else
                 three.AddToFront(checkThread)
 		break
@@ -295,9 +291,9 @@ code Thread
            if(checkThread.time >= 5)
                 checkThread.time = 0
                 three.AddToEnd(checkThread)
-		checkThread.currPrio = checkThread.currPrio + 1
+		checkThread.currPrio = checkThread.currPrio - 1
 		print(checkThread.name)
-                print(" Promoted from four to three!\n")
+                print(" Promoted from 4 to 3!\n")
            else
                 four.AddToFront(checkThread)
 		break
@@ -311,9 +307,9 @@ code Thread
            if(checkThread.time >= 5)
                 checkThread.time = 0
                 four.AddToEnd(checkThread)
-		checkThread.currPrio = checkThread.currPrio + 1
+		checkThread.currPrio = checkThread.currPrio - 1
 		print(checkThread.name)
-                print(" Promoted from five to four!\n")
+                print(" Promoted from 5 to 4!\n")
            else
                 five.AddToFront(checkThread)
 		break
@@ -405,7 +401,6 @@ code Thread
           stackTop = stackTop - 4
           *(stackTop asPtrTo int) = ThreadStartUp asInteger
           status = READY
-          --readyList.AddToEnd (self)
 	  if prio == 1
 		one.AddToEnd(self)
 	  elseIf prio == 2
@@ -456,8 +451,6 @@ code Thread
 		nextTh = four.Remove()
 	  elseIf !five.IsEmpty()
 		nextTh = five.Remove()
-	  else
-		print("Error yield 1")
 	  endIf
           if nextTh
             --print ("About to run ")
@@ -478,15 +471,15 @@ code Thread
                 four.AddToEnd(self)
             elseIf prio == 5
                 five.AddToEnd(self)
-	    else
-		print("Error yeild 2")
             endIf
 	  time = 0
 	  if(prio != currPrio)
-	  	print(name)
-	  	print(" Demoted back to ")
-	  	printInt(prio)
-	  	print("\n")
+		print(name)
+		print(" Demoted back to ")
+		printInt(prio)
+		print(" from ")
+		printInt(currPrio)
+		print("!\n")
 		currPrio = prio
 	  endIf
 	  Run (nextTh)
@@ -530,8 +523,6 @@ code Thread
                 nextTh = four.Remove()
           elseIf !five.IsEmpty()
                 nextTh = five.Remove()
-	  else
-		print("error sleep")
           endIf
           if nextTh == null
             FatalError ("Ready list should always contain the idle thread")
@@ -604,31 +595,16 @@ code Thread
           oldStatus = SetInterruptsTo (oldStatus)
       endMethod
 -----------------------------  setPriority  ---------------------------------
-      method setPriority(givenPrio:int)
+     --sets prio 
+     method setPriority(givenPrio:int)
 	prio = givenPrio
 	currPrio = prio
-	/*if prio == 1
-		one.AddToEnd(self)
-	elseIf prio == 2
-		two.AddToEnd(self)
-        elseIf prio == 3
-                three.AddToEnd(self)
-	elseIf prio == 4
-                four.AddToEnd(self)
-	elseIf prio == 5
-                five.AddToEnd(self)
-	else
-		print("error set prio")
-	endIf*/
      endMethod
 -----------------------------  getPriority  ---------------------------------
+     -- Fetches prio
      method getPriority() returns int
 	return prio
      endMethod
------------------------------ getTime ---------------------------------------
-	--temp
-     method getTime() returns int
-	return time
-     endMethod
   endBehavior
 endCode
+
