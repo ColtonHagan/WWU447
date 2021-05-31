@@ -5,7 +5,7 @@
 #include <math.h>
 
 struct pageTable {
-   char **pages[50];
+   char **pages;
    bool secondChance[];
 };
 
@@ -40,29 +40,29 @@ char* BinaryToHex(char* biStr) {
 }
 
 //Using secondChance algorthm, finds and replaces page
-int replacePages(char* addr, char **pages, bool secondChance[], int pageNum, int position) {
-    while(1) {
+int replacePages(char* addr, struct pageTable *pageTable, int pageNum, int position) {
+    while(true) {
         //if hit end of pages, start over 
         if(position >= pageNum) {
             position = 0;
         }
         //hit
-        if(!secondChance[position]) {
-            strcpy(pages[position], addr);
+        if(!(pageTable->secondChance[position])) {
+            strcpy(pageTable->pages[position], addr);
             return position+1;
         }
         //miss
-        secondChance[position] = false;
+        pageTable->secondChance[position] = false;
         position++;
     }
 }
 
 //Using checks to see if addr is in pages if it is updates it
-bool checkPages(char* addr, char **pages, bool secondChance[], int pageNum) {
+bool checkPages(char* addr, struct pageTable *pageTable, int pageNum) {
     //Finds if it is curre
     for(int i = 0; i < pageNum; i++) {
-        if(strcmp(pages[i],addr) == 0) {
-            secondChance[i] = true;
+        if(strcmp(pageTable->pages[i],addr) == 0) {
+            pageTable->secondChance[i] = true;
             return true;
         }
     }
@@ -108,12 +108,13 @@ void Simulate(char* traceFileName, int memorySize, int pageSize) {
 	pageSize *= 1024;
 	int bitLen = 32 - log2(pageSize);
 	
-	bool secondChance[pageNum];
-	char **pages = malloc((pageNum+1) * sizeof(char*));
+	struct pageTable *pageTable = malloc(sizeof(struct pageTable));
+	pageTable->secondChance[pageNum];
+	pageTable->pages = malloc((pageNum+1) * sizeof(char*));
 	//fills pages with -1
 	for(int i = 0; i < pageNum; i++) {
-        pages[i] = malloc(10);
-        strcpy(pages[i], "-1");
+        pageTable->pages[i] = malloc(10);
+        strcpy(pageTable->pages[i], "-1");
     }
 
     if((fp = fopen(traceFileName, "r")) == NULL) {
@@ -127,18 +128,19 @@ void Simulate(char* traceFileName, int memorySize, int pageSize) {
         //Get modified address
         char* addr = calculateAddr(fullAddr, bitLen);
         //updates and replaces pages using second chance
-        if(!checkPages(addr, pages, secondChance, pageNum)) {
+        if(!checkPages(addr, pageTable, pageNum)) {
             //if there is a page fault
             pageFaults++;
-            position = replacePages(addr, pages, secondChance, pageNum, position);
+            position = replacePages(addr, pageTable, pageNum, position);
         }
         free(addr);
     }
     //frees pages
     for(int i = 0; i < pageNum; i++) {
-        free(pages[i]);
+        free(pageTable->pages[i]);
     }
-    free(pages);
+    free(pageTable->pages);
+    free(pageTable);
     //Prints info
     printf("Trace File:  %s\n", traceFileName);
 	printf("Memory size:  %d KB\n", memorySize);
@@ -166,7 +168,7 @@ int main(int argc, char *argv[]) {
 	}
 	//check if they are possible values
 	*/
-	fileName = "test.txt";
+	fileName = "trace1.txt";
 	memorySize = 64;
 	pageSize = 4;
 	Simulate(fileName, memorySize, pageSize);
