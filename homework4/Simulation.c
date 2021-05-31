@@ -3,6 +3,12 @@
 #include <string.h>
 #include <stdbool.h>
 #include <math.h>
+
+struct pageTable {
+   char **pages[50];
+   bool secondChance[];
+};
+
 //binary numbers equal to there index
 char binary[16][5] = {"0000", "0001", "0010", "0011", "0100", "0101","0110", "0111", "1000", "1001", "1010", "1011", "1100", "1101", "1110","1111"};
 
@@ -33,9 +39,10 @@ char* BinaryToHex(char* biStr) {
     return NULL;
 }
 
+//Using secondChance algorthm, finds and replaces page
 int replacePages(char* addr, char **pages, bool secondChance[], int pageNum, int position) {
     while(1) {
-        //if hit end of array, start over 
+        //if hit end of pages, start over 
         if(position >= pageNum) {
             position = 0;
         }
@@ -50,7 +57,8 @@ int replacePages(char* addr, char **pages, bool secondChance[], int pageNum, int
     }
 }
 
-bool updatePages(char* addr, char **pages, bool secondChance[], int pageNum) {
+//Using checks to see if addr is in pages if it is updates it
+bool checkPages(char* addr, char **pages, bool secondChance[], int pageNum) {
     //Finds if it is curre
     for(int i = 0; i < pageNum; i++) {
         if(strcmp(pages[i],addr) == 0) {
@@ -61,14 +69,45 @@ bool updatePages(char* addr, char **pages, bool secondChance[], int pageNum) {
     return false;
 }
 
+char* calculateAddr(char fullAddr[], int bitLen) {
+    int hexLen = bitLen/4;
+    int remander = bitLen%4;
+    char* addr = malloc(10);
+    //If you are not splitting a hex number
+    if(remander == 0) {
+        memcpy(addr,fullAddr,hexLen);
+        addr[hexLen] = '\0';
+    //if you need to split a hex number
+    } else {
+        //takes first 4 digits
+        memcpy(addr,fullAddr,hexLen);
+        addr[hexLen] = '\0';
+        //convers to binary and take remander
+        char* biStr = HexToBinary(fullAddr[4]);
+        memcpy(biStr,biStr,remander);
+        biStr[remander] = '\0';
+        //converts to full binary string
+        while(strlen(biStr) < 4) {
+            char* tempStr = malloc(5);
+            snprintf(tempStr, sizeof(tempStr), "0%s", biStr);
+            strcpy(biStr,tempStr);
+            free(tempStr);
+        }
+        //converts back to hex and re-adds
+        strcat(addr, BinaryToHex(biStr));
+    }
+    return addr;
+}
+
 void Simulate(char* traceFileName, int memorySize, int pageSize) {
-	int pageNum = memorySize/pageSize;
+	int position = 0, pageFaults = 0;
+	char line[20], fullAddr[10];
+	FILE * fp;
+    //Calculates page information
+    int pageNum = memorySize/pageSize;
 	pageSize *= 1024;
 	int bitLen = 32 - log2(pageSize);
-	int hexLen = bitLen / 4;
-	int position = 0, pageFaults = 0;
-	int remander = bitLen%4;
-	char line[20], fullAddr[10], addr[10];
+	
 	bool secondChance[pageNum];
 	char **pages = malloc((pageNum+1) * sizeof(char*));
 	//fills pages with -1
@@ -76,47 +115,27 @@ void Simulate(char* traceFileName, int memorySize, int pageSize) {
         pages[i] = malloc(10);
         strcpy(pages[i], "-1");
     }
-	FILE * fp;
+
     if((fp = fopen(traceFileName, "r")) == NULL) {
         printf("Error: No file by that name\n");
         exit(EXIT_FAILURE);
     }
+    
     while(fgets(line, sizeof(line), fp)) {
         //gets first word of line
         sscanf(line, " %s", fullAddr);
-        //If you are not splitting a hex number
-        if(remander == 0) {
-            memcpy(addr,fullAddr,hexLen);
-            addr[hexLen] = '\0';
-        //if you need to split a hex number
-        } else {
-            //takes first 4 digits
-            memcpy(addr,fullAddr,hexLen);
-            addr[hexLen] = '\0';
-            //convers to binary and take remander
-            char* biStr = HexToBinary(fullAddr[4]);
-            memcpy(biStr,biStr,remander);
-            biStr[remander] = '\0';
-            //converts to full binary string
-            while(strlen(biStr) < 4) {
-                char* tempStr = malloc(5);
-                snprintf(tempStr, sizeof(tempStr), "0%s", biStr);
-                strcpy(biStr,tempStr);
-                free(tempStr);
-            }
-            //converts back to hex and re-adds
-            strcat(addr, BinaryToHex(biStr));
-        }
+        //Get modified address
+        char* addr = calculateAddr(fullAddr, bitLen);
         //updates and replaces pages using second chance
-        if(!updatePages(addr, pages, secondChance, pageNum)) {
+        if(!checkPages(addr, pages, secondChance, pageNum)) {
             //if there is a page fault
             pageFaults++;
             position = replacePages(addr, pages, secondChance, pageNum, position);
         }
+        free(addr);
     }
     //frees pages
     for(int i = 0; i < pageNum; i++) {
-        //printf("Page %d = %s\n", i, pages[i]);
         free(pages[i]);
     }
     free(pages);
@@ -144,8 +163,10 @@ int main(int argc, char *argv[]) {
 	if((endptr1 != NULL && *endptr1 != 0) || (endptr2 != NULL && *endptr2 != 0) || memorySize < 0 || pageSize < 0) {
 		printf("Error: Values in passed arguments are not valid\n");
 		return EXIT_FAILURE;
-	}*/
-	fileName = "trace2.txt";
+	}
+	//check if they are possible values
+	*/
+	fileName = "test.txt";
 	memorySize = 64;
 	pageSize = 4;
 	Simulate(fileName, memorySize, pageSize);
