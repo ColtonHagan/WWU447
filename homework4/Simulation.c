@@ -33,35 +33,61 @@ char* BinaryToHex(char* biStr) {
     return NULL;
 }
 
+int replacePages(char* addr, char **pages, bool secondChance[], int pageNum, int position) {
+    while(1) {
+        //if hit end of array, start over 
+        if(position >= pageNum) {
+            position = 0;
+        }
+        //hit
+        if(!secondChance[position]) {
+            strcpy(pages[position], addr);
+            return position+1;
+        }
+        //miss
+        secondChance[position] = false;
+        position++;
+    }
+}
+
+bool updatePages(char* addr, char **pages, bool secondChance[], int pageNum) {
+    //Finds if it is curre
+    for(int i = 0; i < pageNum; i++) {
+        if(strcmp(pages[i],addr) == 0) {
+            secondChance[i] = true;
+            return true;
+        }
+    }
+    return false;
+}
+
 void Simulate(char* traceFileName, int memorySize, int pageSize) {
-	printf("Trace File:  %s\n", traceFileName);
-	printf("Memory size:  %d KB\n", memorySize);
-	printf("Page Size: %d KB\n", pageSize);
 	int pageNum = memorySize/pageSize;
 	pageSize *= 1024;
 	int bitLen = 32 - log2(pageSize);
 	int hexLen = bitLen / 4;
+	int position = 0, pageFaults = 0;
 	int remander = bitLen%4;
 	char line[20], fullAddr[10], addr[10];
+	bool secondChance[pageNum];
+	char **pages = malloc((pageNum+1) * sizeof(char*));
+	//fills pages with -1
+	for(int i = 0; i < pageNum; i++) {
+        pages[i] = malloc(10);
+        strcpy(pages[i], "-1");
+    }
 	FILE * fp;
     if((fp = fopen(traceFileName, "r")) == NULL) {
         printf("Error: No file by that name\n");
         exit(EXIT_FAILURE);
     }
     while(fgets(line, sizeof(line), fp)) {
-        bool secondChance[pageNum];
-	    char **pages = malloc((pageNum+1) * sizeof(char*));
-	    //fills pages with -1
-	    for(int i = 0; i < pageNum; i++) {
-            pages[i] = malloc(10);
-            strcpy(pages[i], "-1");
-        }
+        //gets first word of line
         sscanf(line, " %s", fullAddr);
-        //If you are not cutting a hex number
+        //If you are not splitting a hex number
         if(remander == 0) {
             memcpy(addr,fullAddr,hexLen);
             addr[hexLen] = '\0';
-            printf("%s\n", addr);
         //if you need to split a hex number
         } else {
             //takes first 4 digits
@@ -80,14 +106,25 @@ void Simulate(char* traceFileName, int memorySize, int pageSize) {
             }
             //converts back to hex and re-adds
             strcat(addr, BinaryToHex(biStr));
-            printf("%s\n", addr);
         }
-        //frees pages
-        for(int i = 0; i < pageNum; i++) {
-            free(pages[i]);
+        //updates and replaces pages using second chance
+        if(!updatePages(addr, pages, secondChance, pageNum)) {
+            //if there is a page fault
+            pageFaults++;
+            position = replacePages(addr, pages, secondChance, pageNum, position);
         }
-        free(pages);
     }
+    //frees pages
+    for(int i = 0; i < pageNum; i++) {
+        //printf("Page %d = %s\n", i, pages[i]);
+        free(pages[i]);
+    }
+    free(pages);
+    //Prints info
+    printf("Trace File:  %s\n", traceFileName);
+	printf("Memory size:  %d KB\n", memorySize);
+	printf("Page Size:  %d KB\n", pageSize/1024);
+    printf("Page Faults:  %d\n", pageFaults);
 }
 
 int main(int argc, char *argv[]) {
@@ -108,7 +145,7 @@ int main(int argc, char *argv[]) {
 		printf("Error: Values in passed arguments are not valid\n");
 		return EXIT_FAILURE;
 	}*/
-	fileName = "test.txt";
+	fileName = "trace2.txt";
 	memorySize = 64;
 	pageSize = 4;
 	Simulate(fileName, memorySize, pageSize);
