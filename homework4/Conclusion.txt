@@ -1,0 +1,17 @@
+My results for all possible params of Simulation.c (with trace files 1 and 2) where:
+
+trace1.txt page faults:
+Page Size->|4     |16    |32    |64    |
+Memory Size|-----------------------------
+256        |21433 |103861|226410|287760|
+128        |46692 |226412|287762|402585|
+64         |154900|287769|402589|716125|
+
+trace2.txt page faults:
+Page Size->|4     |16    |32    |64    |
+Memory Size|-----------------------------
+256        |58080 |77326 |119167|181574|
+128        |84178 |119167|181576|325781|
+64         |115617|181576|325782|663646|
+
+From these results, it is easy to see that the best params to minimize page faults (for both trace1 and trace2) were a page size of 4 and a memory size of 256. In other words, the smallest possible page size and the largest possible memory size. This goes along with the trend in the data, increasing page size or decreasing memory size, always leads to more page faults. This makes perfect sense going with what I know about paging and the second chance algorithm. Higher memory size is going to mean we have more pages (since the amount of page just is memory size/page size), and if there are more pages, there is less of a chance to page fault (since there it is more pages it is more likely that the address has been previously stored in a page and not kicked. Lower page size also works in the same way, as lower page size means there will be more pages. To summarize, to avoid page faults it is optimal to have as many pages as possible. Doing this will increase the amount of address the page table holds, and therefore also increase the chances that a new address is currently stored on the page table. 

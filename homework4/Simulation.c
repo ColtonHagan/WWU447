@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdbool.h>
+#include <stdbool.h> //for booleans
 #include <math.h>
 
 //Pagetable containg pages, ref bit (in form of bool), and number of pages
@@ -37,6 +37,7 @@ char binary[16][5] = {
 };
 
 //Converts given hex char to binary equivelent
+//Note: Only works with lowercase hex
 char * HexToBinary(char hex) {
     char * biStr = malloc(5);
     if (hex >= '0' && hex <= '9')
@@ -50,6 +51,7 @@ char * HexToBinary(char hex) {
 
 //Converts given 4 digit binary string to hex equivelent
 char * BinaryToHex(char * biStr) {
+    //Must be 4 digits
     if (strlen(biStr) != 4)
         return NULL;
     char * hex = malloc(5);
@@ -79,9 +81,9 @@ int replacePages(char * addr, struct pageTable * pageTable, int position) {
     }
 }
 
-//Using checks to see if addr is in pages if it is updates it
+//Checks to see if addr is in pages table, if it is updates it
 bool checkPages(char * addr, struct pageTable * pageTable) {
-    //Finds if it is curre
+    //Finds if address is currently in page table
     for (int i = 0; i < pageTable -> pageNum; i++) {
         if (strcmp(pageTable -> pages[i], addr) == 0) {
             pageTable -> secondChance[i] = true;
@@ -91,7 +93,7 @@ bool checkPages(char * addr, struct pageTable * pageTable) {
     return false;
 }
 
-//Calculates addrs from given value for current page size
+//Calculates address from given value for current page size
 char * calculateAddr(char fullAddr[], int bitLen) {
     int hexLen = bitLen / 4;
     int remander = bitLen % 4;
@@ -112,7 +114,7 @@ char * calculateAddr(char fullAddr[], int bitLen) {
         //converts to full binary string
         while (strlen(biStr) < 4) {
             char * tempStr = malloc(5);
-            snprintf(tempStr, strlen(tempStr), "0%s", biStr);
+            snprintf(tempStr, 5, "0%s", biStr);
             strcpy(biStr, tempStr);
             free(tempStr);
         }
@@ -160,7 +162,7 @@ void Simulate(char * traceFileName, int memorySize, int pageSize) {
         free(addr);
     }
 
-    //frees pages
+    //frees page table
     for (int i = 0; i < pageTable -> pageNum; i++)
         free(pageTable -> pages[i]);
     free(pageTable -> pages);
@@ -174,6 +176,7 @@ void Simulate(char * traceFileName, int memorySize, int pageSize) {
     printf("Page Faults:  %d\n", pageFaults);
 }
 
+//main
 int main(int argc, char * argv[]) {
     char * fileName;
     char * endptr1 = NULL;
@@ -201,6 +204,7 @@ int main(int argc, char * argv[]) {
         printf("Error: Page size must be 4, 16, 32, or 64\n");
         return EXIT_FAILURE;
     }
+    //runs simulation
     Simulate(fileName, memorySize, pageSize);
     return 0;
 }
