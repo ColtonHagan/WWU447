@@ -1,9 +1,15 @@
+/* Name: Colton Hagan
+   Class: CS447
+   Project: hw4
+   Description: Reads in addresss from file, simulating page table, and second chance algorthm
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
 #include <math.h>
 
+//Pagetable containg pages and ref bit (in form of bool)
 struct pageTable {
    char **pages;
    bool secondChance[];
@@ -40,35 +46,35 @@ char* BinaryToHex(char* biStr) {
 }
 
 //Using secondChance algorthm, finds and replaces page
-int replacePages(char* addr, struct pageTable *pageTable, int pageNum, int position) {
-    while(true) {
+int replacePages(char* addr, char **pages, bool secondChance[], int pageNum, int position) {
+    while(1) {
         //if hit end of pages, start over 
         if(position >= pageNum) {
             position = 0;
         }
         //hit
-        if(!(pageTable->secondChance[position])) {
-            strcpy(pageTable->pages[position], addr);
+        if(!secondChance[position]) {
+            strcpy(pages[position], addr);
             return position+1;
         }
         //miss
-        pageTable->secondChance[position] = false;
+        secondChance[position] = false;
         position++;
     }
 }
 
 //Using checks to see if addr is in pages if it is updates it
-bool checkPages(char* addr, struct pageTable *pageTable, int pageNum) {
+bool checkPages(char* addr, char **pages, bool secondChance[], int pageNum) {
     //Finds if it is curre
     for(int i = 0; i < pageNum; i++) {
-        if(strcmp(pageTable->pages[i],addr) == 0) {
-            pageTable->secondChance[i] = true;
+        if(strcmp(pages[i],addr) == 0) {
+            secondChance[i] = true;
             return true;
         }
     }
     return false;
 }
-
+//Calculates addrs from given value for current page size
 char* calculateAddr(char fullAddr[], int bitLen) {
     int hexLen = bitLen/4;
     int remander = bitLen%4;
@@ -89,7 +95,7 @@ char* calculateAddr(char fullAddr[], int bitLen) {
         //converts to full binary string
         while(strlen(biStr) < 4) {
             char* tempStr = malloc(5);
-            snprintf(tempStr, sizeof(tempStr), "0%s", biStr);
+            snprintf(tempStr, strlen(tempStr), "0%s", biStr);
             strcpy(biStr,tempStr);
             free(tempStr);
         }
@@ -99,22 +105,21 @@ char* calculateAddr(char fullAddr[], int bitLen) {
     return addr;
 }
 
+//Reads in addresss from file, simulating page table, and running second chance algorthm
 void Simulate(char* traceFileName, int memorySize, int pageSize) {
 	int position = 0, pageFaults = 0;
 	char line[20], fullAddr[10];
 	FILE * fp;
     //Calculates page information
     int pageNum = memorySize/pageSize;
-	pageSize *= 1024;
-	int bitLen = 32 - log2(pageSize);
+	int bitLen = 32 - log2(pageSize*1024);
 	
-	struct pageTable *pageTable = malloc(sizeof(struct pageTable));
-	pageTable->secondChance[pageNum];
-	pageTable->pages = malloc((pageNum+1) * sizeof(char*));
+	bool secondChance[pageNum];
+	char **pages = malloc((pageNum+1) * sizeof(char*));
 	//fills pages with -1
 	for(int i = 0; i < pageNum; i++) {
-        pageTable->pages[i] = malloc(10);
-        strcpy(pageTable->pages[i], "-1");
+        pages[i] = malloc(10);
+        strcpy(pages[i], "-1");
     }
 
     if((fp = fopen(traceFileName, "r")) == NULL) {
@@ -122,29 +127,31 @@ void Simulate(char* traceFileName, int memorySize, int pageSize) {
         exit(EXIT_FAILURE);
     }
     
+    //reads address from file and adds to page  tale
     while(fgets(line, sizeof(line), fp)) {
         //gets first word of line
         sscanf(line, " %s", fullAddr);
         //Get modified address
         char* addr = calculateAddr(fullAddr, bitLen);
         //updates and replaces pages using second chance
-        if(!checkPages(addr, pageTable, pageNum)) {
+        if(!checkPages(addr, pages, secondChance, pageNum)) {
             //if there is a page fault
             pageFaults++;
-            position = replacePages(addr, pageTable, pageNum, position);
+            position = replacePages(addr, pages, secondChance, pageNum, position);
         }
         free(addr);
     }
+    
     //frees pages
     for(int i = 0; i < pageNum; i++) {
-        free(pageTable->pages[i]);
+        free(pages[i]);
     }
-    free(pageTable->pages);
-    free(pageTable);
+    free(pages);
+    
     //Prints info
     printf("Trace File:  %s\n", traceFileName);
 	printf("Memory size:  %d KB\n", memorySize);
-	printf("Page Size:  %d KB\n", pageSize/1024);
+	printf("Page Size:  %d KB\n", pageSize);
     printf("Page Faults:  %d\n", pageFaults);
 }
 
@@ -154,23 +161,28 @@ int main(int argc, char *argv[]) {
 	char* endptr2 = NULL;
 	int memorySize, pageSize;
 	//Check right number of args
-	/*if(argc != 4) {
-		printf("Error: Pass 3 arguments\n");
-		return EXIT_FAILURE;
-	}
-	fileName = argv[1];
-	memorySize = strtol(argv[2],&endptr1,10);
-	pageSize = strtol(argv[3],&endptr2,10);
-	//checks valid args
-	if((endptr1 != NULL && *endptr1 != 0) || (endptr2 != NULL && *endptr2 != 0) || memorySize < 0 || pageSize < 0) {
-		printf("Error: Values in passed arguments are not valid\n");
-		return EXIT_FAILURE;
-	}
-	//check if they are possible values
-	*/
-	fileName = "trace1.txt";
-	memorySize = 64;
-	pageSize = 4;
+	if(argc != 4) {
+    	printf("Error: Pass 3 arguments\n");
+    	return EXIT_FAILURE;
+    }
+    fileName = argv[1];
+    memorySize = strtol(argv[2],&endptr1,10);
+    pageSize = strtol(argv[3],&endptr2,10);
+    //checks valid args
+    if((endptr1 != NULL && *endptr1 != 0) || (endptr2 != NULL && *endptr2 != 0) || memorySize < 0 || pageSize < 0) {
+    	printf("Error: Values in passed arguments are not valid\n");
+    	return EXIT_FAILURE;
+    }
+    //check if they are possible values of page/memory size
+    if(memorySize != 32 && memorySize != 128 && memorySize != 256) {
+        printf("Error: Memory size must be 32, 128, or 256\n");
+    	return EXIT_FAILURE;
+    }
+    if(pageSize != 4 && pageSize != 16 && pageSize != 32 && pageSize != 64) {
+        printf("Error: Page size must be 4, 16, 32, or 64\n");
+    	return EXIT_FAILURE;
+    }
 	Simulate(fileName, memorySize, pageSize);
 	return 0;
 }
+
