@@ -134,12 +134,16 @@ void Simulate(char * traceFileName, int memorySize, int pageSize) {
 
     struct pageTable * pageTable = malloc(sizeof(struct pageTable));
     pageTable -> pageNum = memorySize / pageSize;
-    pageTable -> secondChance = malloc(pageTable -> pageNum);
+    pageTable -> secondChance = malloc(pageTable -> pageNum + 1);
     pageTable -> pages = malloc((pageTable -> pageNum + 1) * sizeof(char * ));
     //fills pages with -1
     for (int i = 0; i < pageTable -> pageNum; i++) {
         pageTable -> pages[i] = malloc(10);
         strcpy(pageTable -> pages[i], "-1");
+    }
+    //fills secondChance with 1/true
+    for (int i = 0; i < pageTable -> pageNum; i++) {
+        pageTable -> secondChance[i] = true;
     }
 
     if ((fp = fopen(traceFileName, "r")) == NULL) {
@@ -163,8 +167,9 @@ void Simulate(char * traceFileName, int memorySize, int pageSize) {
     }
 
     //frees page table
-    for (int i = 0; i < pageTable -> pageNum; i++)
+    for (int i = 0; i < pageTable -> pageNum; i++) {
         free(pageTable -> pages[i]);
+    }
     free(pageTable -> pages);
     free(pageTable -> secondChance);
     free(pageTable);
@@ -208,3 +213,4 @@ int main(int argc, char * argv[]) {
     Simulate(fileName, memorySize, pageSize);
     return 0;
 }
+
